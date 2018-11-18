@@ -4,7 +4,7 @@
 $ ./02.py <@param1> <@param2>
 
 Todo:
-  See about breaking inputs down to blocks; is it possible to overwhelm hex()?
+  See about breaking inputs into blocks; is it possible to overwhelm hex()?
 """
 
 import sys
