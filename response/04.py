@@ -18,9 +18,9 @@ def scoreCandidate( ptCandidate ):
   localScore = 0
 
 ## skips over desired output if not commented out
-#  for x in ptCandidate:
-#    if( x<0x20 or x>0x7e ):
-#      return 0
+  for x in ptCandidate:
+    if( (x<0x20 and x!=0xa) or x>0x7e ):
+      return 0
 
   localScore += 1202 * localCandidate.count('e')
   localScore += 910 * localCandidate.count('t')
