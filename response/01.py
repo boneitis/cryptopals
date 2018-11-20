@@ -11,6 +11,6 @@ import base64
 
 ct_nib = sys.stdin.read( 1024 )
 while ct_nib != "":
-	print( base64.b64encode(binascii.unhexlify(ct_nib)).decode("utf-8") )
-	ct_nib = sys.stdin.read( 1024 )
+  print( base64.b64encode(binascii.unhexlify(ct_nib)).decode("utf-8") )
+  ct_nib = sys.stdin.read( 1024 )
 
