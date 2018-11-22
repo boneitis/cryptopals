@@ -1,0 +1,41 @@
+Scratch
+
+>>> strxor(b"aaaa", b" ! !")
+b'A@A@'
+>>> samp = strxor(b"aaaa", b" ! !")
+>>> type(samp)
+<class 'bytes'>
+>>> samp[0]
+65
+>>> samp[1]
+64
+>>> samp[2]
+65
+>>> samp[3]
+64
+
+*****
+
+>>> strxor_c(b'aaaa',32)
+b'AAAA'
+
+*****
+
+>>> ba.hexlify(b'AAAA')
+b'41414141'
+>>> hexlified = ba.hexlify(b'4141')
+>>> print (hexlified)
+b'34313431'
+
+*****
+
+>>> "aaa" + "bb"
+'aaabb'
+
+>>> "abcdefg"[2:4]
+'cd'
+>>> len("abcdefg")
+7
+>>> "abcdefg"[ 1:len("abcdefg")-1 ]
+'bcdef'
+
