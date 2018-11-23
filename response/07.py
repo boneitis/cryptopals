@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 """
-
 $ tr -d '\n'< challenge/7.txt |./07.py
 
 """
