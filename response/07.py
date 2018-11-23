@@ -2,7 +2,7 @@
 
 """
 
-$ tr -d '\n'< 7.txt |./07.py
+$ tr -d '\n'< challenge/7.txt |./07.py
 
 """
 

@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 """
-$ cat 4.txt|./04.py
+$ cat challenge/4.txt|./04.py
 
 """
 
@@ -17,7 +17,6 @@ def scoreCandidate( ptCandidate ):
   localCandidate = ptCandidate.lower().decode("ISO-8859-1")
   localScore = 0
 
-## skips over desired output if not commented out
   for x in ptCandidate:
     if( (x<0x20 and x!=0xa) or x>0x7e ):
       return 0
@@ -55,9 +54,9 @@ def scoreCandidate( ptCandidate ):
   localScore += 10 * localCandidate.count('j')
   localScore += 7 * localCandidate.count('z')
 
-  localScore -= 200 * localCandidate.count('`')
-  localScore -= 100 * localCandidate.count('&')
-  localScore -= 300 * localCandidate.count('|')
+#  localScore -= 200 * localCandidate.count('`')
+#  localScore -= 100 * localCandidate.count('&')
+#  localScore -= 300 * localCandidate.count('|')
 
   return localScore;
 
