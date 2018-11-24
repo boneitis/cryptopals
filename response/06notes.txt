@@ -1,0 +1,35 @@
+KEYSIZE_FLOOR = 2
+KEYSIZE_CEIL = 40
+
+DISTANCE_PAIRS
+
+KEYLEN_CANDIDATE
+
+transposeScatter
+transposeRebuild
+
+                                    2             40
+for currentKeyLen in range( KEYSIZE_FLOOR, KEYSIZE_CEIL+1 ):
+  for x in range( currentKeyLen ):
+    allocate substring ct[ x::currentKeyLen ]
+
+
+
+for x in range(4)
+  print(x * x
+
+
+5 keysize, 5 pairs
+hamming( buffer[0:5], buffer[5:10] ) +
+hamming( buffer[10:15], buffer[15:20] ) +
+hamming( buffer[20:25], buffer[25:30] ) +
+hamming( buffer[30:35], buffer[35:40] ) +
+hamming( buffer[40:45], buffer[45:50] )
+
+6 keysize, 5 pairs
+hamming( buffer[0:6], buffer[6:12] ) +
+hamming( buffer[12:18], buffer[18:24] ) +
+hamming( buffer[24:30], buffer[30:36] ) +
+hamming( buffer[36:42], buffer[42:48] ) +
+hamming( buffer[48:54], buffer[54:60] )
+
