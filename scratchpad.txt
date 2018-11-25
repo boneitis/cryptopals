@@ -23,6 +23,9 @@ b'AAAA'
 
 >>> ba.hexlify(b'AAAA')
 b'41414141'
+>>> ba.hexlify(b'\x41\x41\x41\x41')
+b'41414141'
+
 >>> hexlified = ba.hexlify(b'4141')
 >>> print (hexlified)
 b'34313431'
@@ -38,4 +41,11 @@ b'34313431'
 7
 >>> "abcdefg"[ 1:len("abcdefg")-1 ]
 'bcdef'
+
+*****
+
+>>> int('a',16)
+10
+>>> int('aa',16)
+170
 
