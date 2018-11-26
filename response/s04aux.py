@@ -60,7 +60,8 @@ def scoreCandidate( ptCandidate ):
 
     return localScore;
 
-def breakSingleKeyXOR( ct_raw )
+def breakSingleKeyXOR( ct_raw ):
+    topCandidate = b''
     topScore = 0
 #    ct = sys.stdin.buffer.read(4000)
 #    ct_raw = binascii.unhexlify( ct )
