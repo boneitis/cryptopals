@@ -14,7 +14,7 @@ for line in f.input():
   lineIndex += 1
   inLineStringDict = defaultdict(int)
 
-  # add 1 to dict-value of current block as dict-key
+  # using current block as dict-key, add 1 to the dict-val
   x = 0
   while x < len(line)-16:
     inLineStringDict[line[x:x+16]] += 1
