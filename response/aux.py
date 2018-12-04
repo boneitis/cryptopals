@@ -9,7 +9,7 @@ B64BLOCKSIZE = 1023
 
 assert(B64BLOCKSIZE%3 == 0)
 
-def b64out(bytesString):
+def b64sink(bytesString):
   for x in range( 0, len(bytesString), B64BLOCKSIZE ):
     print( b64.b64encode( bytesString[x:x+B64BLOCKSIZE] ).decode(), end='' )
 
