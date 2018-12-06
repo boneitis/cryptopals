@@ -14,7 +14,7 @@ BLOCKSIZE = 20
 assert(BLOCKSIZE > 0 and BLOCKSIZE < 256)
 
 try:
-  nib = sys.stdin.read(BLOCKSIZE)
+  nib = sys.stdin.buffer.read(BLOCKSIZE)
 except:
   print('kaboom')
   sys.exit(9)
@@ -28,11 +28,11 @@ while True:
   # full BS read in, continue
   length = len(nib)
   if length == BLOCKSIZE:
-    b64sink(nib.encode())
-    nib = sys.stdin.read(BLOCKSIZE)
+    b64sink(nib)
+    nib = sys.stdin.buffer.read(BLOCKSIZE)
 
   # not BS-aligned; pad and terminate
   else:
-    b64sink( nib.encode() + (BLOCKSIZE-length).to_bytes(1, byteorder=sys.byteorder)*(BLOCKSIZE-length) )
+    b64sink( nib + (BLOCKSIZE-length).to_bytes(1, byteorder=sys.byteorder)*(BLOCKSIZE-length) )
     break
 
