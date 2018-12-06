@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+# set BLOCKSIZE = 20
 perl -e 'print "YELLOW SUBMARINE";' |./09.py |base64 -d |hexdump -C
 
 """
@@ -9,7 +10,7 @@ import binascii as ba
 from aux import b64sink
 
 # per cryptopals-09 problem description
-BLOCKSIZE = 20
+BLOCKSIZE = 16
 # per RFC 2315
 assert(BLOCKSIZE > 0 and BLOCKSIZE < 256)
 
