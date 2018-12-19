@@ -17,8 +17,9 @@ MAXPREFIXLEN = 500
 class ECB_Oracle:
   def __init__( self ):
     self.blocksize = BLOCKSIZE
-#    self.prefix = bytes( [r.randint(0, 255) for x in range(MAXPREFIXLEN) ] )
-    self.prefix = b'A'*25
+    self.prefix = bytes( [r.randint(0, 255) for x in range(r.randint(1, MAXPREFIXLEN)) ] )
+#    self.prefix = b'A'*25
+    print('prefix len ' + str(len(self.prefix)))
     self.unknown_string = base64.b64decode('Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK')
     self.random_key = bytes( [r.randint(0, 255) for x in range(self.blocksize)] )
     self.cipher = AES.new( self.random_key, AES.MODE_ECB )
@@ -34,7 +35,12 @@ class ECB_Oracle:
 
   # SANITY CHECK, verify block index of prefix tail
   def submitPrefixLastBlockIndex( self, lastBlockIndex ):
-    return int(len(self.prefix)/self.blocksize)
+    return int(len(self.prefix)/self.blocksize) == lastBlockIndex
+
+  # SANITY CHECK, verify sum of lengths of prefix and CPA
+#  def submitLenPlusLen( self, lenPlusLen ):
+#    return
+
 
   # SANITY CHECK, verify prefix length
   # do we actually need this?
@@ -73,6 +79,17 @@ def blockGenerator( ct, bs ):
   for byteIndex in range(0, len(ct), bs):
     yield ct[byteIndex:byteIndex+bs]
 
+def findLenStage1( oracle, lbi, bs ):
+  x = 0
+  while True:
+    ct = oracle.queryOracle(b'A'*x)
+    if ct[ (lbi+1)*bs:(lbi+1)*bs+bs ] == ct[ (lbi+2)*bs:(lbi+2)*bs+bs ]:
+      return x
+    else:
+      x += 1
+      if x > 3*bs:
+        raise Exception('kaboom')
+
 def generateKeylist():
   keylist = [ b'\x01', b'\x02', b'\x03', b'\x04', b'\x05', b'\x06', b'\x07', b'\x08', b'\x09', b'\x0a', b'\x0b', b'\x0c', b'\x0d', b'\x0d', b'\x0f', b'\x10' ]
   for k in range(32, 127):
@@ -95,23 +112,32 @@ def decryptNextByte( oracle, leading_pt, target, keylist, BLOCKSIZE ):
 def main():
   gloria = ECB_Oracle()
   blsize = detectBlocksize( gloria )
+  print('ECB detected.')
   if detectECB( gloria.queryOracle(b'A'*blsize*3), blsize ):
-    print( 'ECB detected, block size ' + str(blsize) + '.' )
+    print( 'Block size ' + str(blsize) + '.' )
   else:
    raise Exception('kaboom')
 
   a = blockGenerator( gloria.queryOracle(b'A'), blsize )
   b = blockGenerator( gloria.queryOracle(b'B'), blsize )
-  x = 0
+  # calculate 'last block index' of prefix
+  lbi = 0
   while True:
     if a.__next__() == b.__next__():
-      break
+      lbi += 1
     else:
-      x += 1
-  if not gloria.submitPrefixLastBlockIndex(x):
-    raise Exception('bad block index')
+      break
+  print('prefix lbi is: ' + str(lbi) + ', after: ' + str(lbi*blsize))
+  if not gloria.submitPrefixLastBlockIndex(lbi):
+    raise Exception( 'Gloria says: Bad block index.' )
 
   print('so far, so good.')
+
+  lenStage1 = findLenStage1( gloria, lbi, blsize )
+  print('lenStage1: ' + str(lenStage1))
+#    print( 'huzzah' )
+#  else:
+#    raise Exception( 'Gloria says: Bad prefix length.' )
 
 # not needed?
 #  if not gloria.submitPrefixLength(25):
