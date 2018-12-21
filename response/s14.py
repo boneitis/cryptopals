@@ -79,16 +79,30 @@ def blockGenerator( ct, bs ):
   for byteIndex in range(0, len(ct), bs):
     yield ct[byteIndex:byteIndex+bs]
 
+# return minimum buffer length such that CPA causes two buffers to be equal
 def findLenStage1( oracle, lbi, bs ):
   x = 0
   while True:
     ct = oracle.queryOracle(b'A'*x)
     if ct[ (lbi+1)*bs:(lbi+1)*bs+bs ] == ct[ (lbi+2)*bs:(lbi+2)*bs+bs ]:
-      return x
+      ctVerify = oracle.queryOracle(b'B'*x)
+      # second check with all 'B's to account for false positives resulting from any 'A' in prefix or pt
+      if ctVerify[ (lbi+1)*bs:(lbi+1)*bs+bs ] == ctVerify[ (lbi+2)*bs:(lbi+2)*bs+bs ]:
+#      return x
+        break
+      else:
+        x += 1
+      if x > 3*bs:
+        raise Exception('kaboom')
     else:
       x += 1
       if x > 3*bs:
         raise Exception('kaboom')
+  return x
+#  while True:
+#    ct = oracle.queryOracle(b'A'*(x-1)+b'B')
+#    if ct[ (lbi+1)*bs:(lbi+1)*bs+bs ] == ct[ (lbi+2)*bs:(lbi+2)*bs+bs ]:
+
 
 def generateKeylist():
   keylist = [ b'\x01', b'\x02', b'\x03', b'\x04', b'\x05', b'\x06', b'\x07', b'\x08', b'\x09', b'\x0a', b'\x0b', b'\x0c', b'\x0d', b'\x0d', b'\x0f', b'\x10' ]
@@ -96,13 +110,13 @@ def generateKeylist():
     keylist.append( chr(k).encode() )
   return keylist
 
-def decryptNextByte( oracle, leading_pt, target, keylist, BLOCKSIZE ):
+def decryptNextByte( oracle, leading_pt, target, keylist, BLOCKSIZE, BLOCKINDEX, lenStage1 ):
   for key in keylist:
 #    print(b'leading pt: ' + leading_pt)
 #    print( oracle.queryOracle( leading_pt+key )[:BLOCKSIZE], end='' )
 #    print( ' vs ', end='' )
 #    print( target )
-    if oracle.queryOracle( leading_pt+key )[:BLOCKSIZE] == target:
+    if oracle.queryOracle( b'A'*lenStage1 + leading_pt + key )[BLOCKINDEX*BLOCKSIZE:BLOCKINDEX*BLOCKSIZE+BLOCKSIZE] == target:
       return key
   return None
 #  print('kaboom')
@@ -135,34 +149,32 @@ def main():
 
   lenStage1 = findLenStage1( gloria, lbi, blsize )
   print('lenStage1: ' + str(lenStage1))
-#    print( 'huzzah' )
-#  else:
-#    raise Exception( 'Gloria says: Bad prefix length.' )
-
-# not needed?
-#  if not gloria.submitPrefixLength(25):
-#    raise Exception('bad len')
 
 
+  ct = gloria.queryOracle( b'A'*lenStage1 )
+  paddedLen = len(ct) - (lbi + 1 + int(lenStage1 / BLOCKSIZE)) * 16
+  print( 'paddedLen is : ' + str(paddedLen) + ', ctlen is: ' + str(len(ct)) )
+  keylist = generateKeylist()
+  r = b'A' * (BLOCKSIZE-1)
+  adjustedBlockIndex = lbi + int(lenStage1/BLOCKSIZE) + 1
+  print('adjustedBlockIndex is: ' + str(adjustedBlockIndex))
 
-#  ct = gloria.queryOracle( b'' )
-#  paddedLen = len(ct)
-#  keylist = generateKeylist()
-#  r = b'A' * (BLOCKSIZE-1)
+  for byte in range(paddedLen-4):
+#    print('byte is : ' + str(byte))
+#    print('in range: ' + str(paddedLen-4 - adjustedBlockIndex*BLOCKSIZE))
+    leading_pt = r[-BLOCKSIZE+1:]
+    BLOCKINDEX = int(byte/BLOCKSIZE)
+#    BLOCKINDEX = lbi + 2 + int(byte/BLOCKSIZE)
+    offset = BLOCKSIZE - 1 - (byte%BLOCKSIZE)
+    target = gloria.queryOracle( b'A'*lenStage1 + b'A'*offset )[ adjustedBlockIndex + BLOCKINDEX*BLOCKSIZE : adjustedBlockIndex + BLOCKINDEX*BLOCKSIZE + BLOCKSIZE ]
+    nextByte = decryptNextByte( gloria, leading_pt, target, keylist, BLOCKSIZE, BLOCKINDEX, lenStage1 )
+    if nextByte == None:
+      r = r[BLOCKSIZE-1:-1]
+      break
+    else:
+      r += nextByte
 
-#  for byte in range(paddedLen-4):
-#    leading_pt = r[-BLOCKSIZE+1:]
-#    BLOCKINDEX = int(byte/BLOCKSIZE)
-#    offset = BLOCKSIZE - 1 - (byte%BLOCKSIZE)
-#    target = gloria.queryOracle( b'A'*offset )[ BLOCKINDEX*BLOCKSIZE : BLOCKINDEX*BLOCKSIZE + BLOCKSIZE ]
-#    nextByte = decryptNextByte( gloria, leading_pt, target, keylist, BLOCKSIZE )
-#    if nextByte == None:
-#      r = r[BLOCKSIZE-1:-1]
-#      break
-#    else:
-#      r += nextByte
-
-#  print(r.decode())
+  print(r.decode())
 
 if __name__ == '__main__':
   main()
