@@ -1,5 +1,7 @@
 '''
-14.py
+$ python3 14.py
+
+Getting SUPER lost in the forest.
 
 '''
 
@@ -27,11 +29,6 @@ class ECB_Oracle:
   # return encrypted bytestring of PREFIX||CHOSEN_PT||TARGET_BYTES
   def queryOracle( self, your_string ):
     return self.cipher.encrypt( pad(self.prefix + your_string + self.unknown_string, self.blocksize, style='pkcs7') )
-#    x = self.cipher.encrypt( pad(self.prefix + your_string + self.unknown_string, self.blocksize, style='pkcs7') )
-#    print( '\n\n~~~\nencrypting pt, len ' + str(len(x)) + ': ', end='' )
-#    print(x,end='')
-#    print('\n~~~\n')
-#    return x
 
   # SANITY CHECK, verify block index of prefix tail
   def submitPrefixLastBlockIndex( self, lastBlockIndex ):
@@ -40,7 +37,6 @@ class ECB_Oracle:
   # SANITY CHECK, verify sum of lengths of prefix and CPA
 #  def submitLenPlusLen( self, lenPlusLen ):
 #    return
-
 
   # SANITY CHECK, verify prefix length
   # do we actually need this?
@@ -99,10 +95,6 @@ def findLenStage1( oracle, lbi, bs ):
       if x > 3*bs:
         raise Exception('kaboom')
   return x
-#  while True:
-#    ct = oracle.queryOracle(b'A'*(x-1)+b'B')
-#    if ct[ (lbi+1)*bs:(lbi+1)*bs+bs ] == ct[ (lbi+2)*bs:(lbi+2)*bs+bs ]:
-
 
 def generateKeylist():
   keylist = [ b'\x01', b'\x02', b'\x03', b'\x04', b'\x05', b'\x06', b'\x07', b'\x08', b'\x09', b'\x0a', b'\x0b', b'\x0c', b'\x0d', b'\x0d', b'\x0f', b'\x10' ]
@@ -110,13 +102,15 @@ def generateKeylist():
     keylist.append( chr(k).encode() )
   return keylist
 
-def decryptNextByte( oracle, leading_pt, target, keylist, BLOCKSIZE, BLOCKINDEX, lenStage1 ):
+def decryptNextByte( oracle, leading_pt, target, keylist, BLOCKSIZE, adjustedBlockIndex, lenStage1 ):
   for key in keylist:
 #    print(b'leading pt: ' + leading_pt)
 #    print( oracle.queryOracle( leading_pt+key )[:BLOCKSIZE], end='' )
 #    print( ' vs ', end='' )
 #    print( target )
-    if oracle.queryOracle( b'A'*lenStage1 + leading_pt + key )[BLOCKINDEX*BLOCKSIZE:BLOCKINDEX*BLOCKSIZE+BLOCKSIZE] == target:
+    if oracle.queryOracle( b'A'*lenStage1 + leading_pt + key )[adjustedBlockIndex*BLOCKSIZE:adjustedBlockIndex*BLOCKSIZE+BLOCKSIZE] == target:
+#      print('returns ',end='')
+#      print(key)
       return key
   return None
 #  print('kaboom')
@@ -152,29 +146,34 @@ def main():
 
 
   ct = gloria.queryOracle( b'A'*lenStage1 )
-  paddedLen = len(ct) - (lbi + 1 + int(lenStage1 / BLOCKSIZE)) * 16
-  print( 'paddedLen is : ' + str(paddedLen) + ', ctlen is: ' + str(len(ct)) )
+  full_ct_len = len(ct) - (lbi + 1 + int(lenStage1 / BLOCKSIZE)) * 16
+  print( 'full_ct_len is : ' + str(full_ct_len) + ', ctlen is: ' + str(len(ct)) )
   keylist = generateKeylist()
   r = b'A' * (BLOCKSIZE-1)
+  # block index at which target text begins when fuzzed with `lenStage1` bytes
   adjustedBlockIndex = lbi + int(lenStage1/BLOCKSIZE) + 1
   print('adjustedBlockIndex is: ' + str(adjustedBlockIndex))
 
-  for byte in range(paddedLen-4):
-#    print('byte is : ' + str(byte))
-#    print('in range: ' + str(paddedLen-4 - adjustedBlockIndex*BLOCKSIZE))
+  i = 0
+  blindex = 0
+  blockTargets = []
+  for byte in range(full_ct_len):
+    shift_offset = BLOCKSIZE - 1 - (byte%BLOCKSIZE)
+    blockTargets.append( gloria.queryOracle(b'A'*lenStage1 + b'A'*shift_offset)[(adjustedBlockIndex+blindex)*16:(adjustedBlockIndex+blindex)*16 + BLOCKSIZE ] )
+    i += 1
+    if i % BLOCKSIZE == 0:
+      blindex += 1
+
+  for byte in range(full_ct_len):
     leading_pt = r[-BLOCKSIZE+1:]
-    BLOCKINDEX = int(byte/BLOCKSIZE)
-#    BLOCKINDEX = lbi + 2 + int(byte/BLOCKSIZE)
-    offset = BLOCKSIZE - 1 - (byte%BLOCKSIZE)
-    target = gloria.queryOracle( b'A'*lenStage1 + b'A'*offset )[ adjustedBlockIndex + BLOCKINDEX*BLOCKSIZE : adjustedBlockIndex + BLOCKINDEX*BLOCKSIZE + BLOCKSIZE ]
-    nextByte = decryptNextByte( gloria, leading_pt, target, keylist, BLOCKSIZE, BLOCKINDEX, lenStage1 )
+    nextByte = decryptNextByte( gloria, leading_pt, blockTargets.pop(0), keylist, BLOCKSIZE, adjustedBlockIndex, lenStage1 )
     if nextByte == None:
       r = r[BLOCKSIZE-1:-1]
       break
     else:
       r += nextByte
 
-  print(r.decode())
+  print('\nRecovered plaintext:\n\n' + r.decode())
 
 if __name__ == '__main__':
   main()
