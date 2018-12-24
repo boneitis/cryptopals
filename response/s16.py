@@ -8,7 +8,6 @@ import random as r
 r.seed()
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
-from Crypto.Util.strxor import strxor
 
 class CBC_Oracle_16:
   def __init__(self, KEY=bytes([r.randint(0,255) for x in range(16)]), MODE=2, IV=b'\x00'*16):
@@ -44,8 +43,6 @@ def main():
   mary = CBC_Oracle_16()
   c = mary.encryption_circuit('aaaaaKadminMtrue')
   c_nefarious = c[:21] + int.to_bytes(c[21]^112, 1, byteorder=sys.byteorder) + c[22:27] + int.to_bytes(c[27]^112, 1, byteorder=sys.byteorder) + c[28:]
-#  c[(mary.bs*2)+5] = b'p'
-#  c[(mary.bs*2)+11] = b'p'
   if(mary.decrypt_and_check_admin(c_nefarious)):
     print('\nhuzzah')
   else:
