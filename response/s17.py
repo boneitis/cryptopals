@@ -60,7 +60,7 @@ class CBC_Oracle_17:
 
   def evaluate_response(self, b):
     print('Julia says: ', end='')
-    if b == self.random_pick:
+    if b == b64decode(self.random_pick):
       print('Good.')
     else:
       print('No.')
@@ -69,33 +69,31 @@ def generateKeys():
   for k in range(256):
     yield int.to_bytes(k, 1, sys.byteorder)
 
-def process_block_pair(oracle, ct):
+def decrypt_complement(oracle, ct):
   complement = b''
-  keys = generateKeys()
-  for k in keys:
-    try:
-                       # from iv   b'\x17' * 16
-                       # from key  b'\x18' * 16
-                       # pt           b'a' * 16
-                       # recovered:  \x1d\x04\x7f\x96\xa4\xf8\xf1\xbbY\x02pO\x8a\xbe\x14p
-      oracle.query(
-                    strxor(                         \
-                            ((b'z'*0) + k + b'\x04\x7f\x96\xa4\xf8\xf1\xbbY\x02pO\x8a\xbe\x14p'),        \
-                            (b'\x00'*0 + b'\x10'*16)  \
-                    )                               \
-                    + ct                            \
-      )
-      print(b'key found: ' + k)
-      print(ct)
-      break
-    except ValueError:
-      if k == 255:
-        raise Exception('Fatal.')
-      else:
+
+  for x in range(BS):
+    padmask = b'\x00'*(BS-x-1) + int.to_bytes(x+1, 1, byteorder=sys.byteorder) * (x+1)
+    keys = generateKeys()
+    for k in keys:
+      try:
+        qs = strxor(                                                                        \
+#                     ((b'z'* (BS-x-1)) + k + complement),                                   \
+                     (bytes([r.randint(0,255) for x in range(BS-x-1)]) + k + complement),   \
+                     padmask                                                                \
+        )
+        print(b'  qs: ' + qs )
+        oracle.query(qs + ct)
+        print(b'key found: ' + k)
+        complement = k + complement
+        break
+      except ValueError:
         continue
+    # endfor
+    print('finished outer for iter: ' + str(x))
+  # endfor
 
-
-
+  print(b'decrypt returning: ' + complement)
   return complement
 
 def main():
@@ -105,18 +103,17 @@ def main():
   # break ct into 16-byte blocks
   ct_blocks = [ct[i:i+BS] for i in range(0, len(ct), BS)]
 
-#  for bl in ct_blocks:
-#    print(bl)
-#  print('\n\n')
+  for bl in ct_blocks:
+    print(bl)
+  print('\n\n')
 
   response = b''
   # process target ct blocks in reverse order, pass with preceding ct block to decryptor function
-#  for i in range(len(ct_blocks)-2, -1, -1):
-#    response = process_block_pair(julia, ct_blocks[i], ct_blocks[i+1]) + response
-  response = process_block_pair(julia, ct_blocks[-1]) + response    # first block pair only
-  print('c n-1:', end='')
-  print(ct_blocks[-2])
-
+  for i in range(len(ct_blocks)-1, 0, -1):
+    response = strxor(decrypt_complement(julia, ct_blocks[i]), ct_blocks[i-1]) + response
+#process_block_pair(julia, ct_blocks[i], ct_blocks[i+1]) + response
+#  response = strxor(decrypt_complement(julia, ct_blocks[-1]), ct_blocks[-2]) + response    # first block pair only
+  print(b' response: ' + response)
   julia.evaluate_response(response)
 
 
