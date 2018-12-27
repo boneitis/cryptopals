@@ -8,6 +8,7 @@ from base64 import b64decode
 import random as r
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
+from Crypto.Util.strxor import strxor
 
 # try:
 #   ...
@@ -28,19 +29,20 @@ pt_pool = [
             'MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g=',
             'MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93'
           ]
-pt_pool = ['YmJiYmJiYmJiYmJiYmJiYmFhYWFhYWFhYWFhYWFhYWE=']          # DELETE THIS
+pt_pool = ['YmJiYmJiYmJiYmJiYmJiYmFhYWFhYWFhYWFhYWFhYWE=']          # DELETE ME
 
 
 class CBC_Oracle_17:
 
   def __init__(self):
     self.iv = bytes([r.randint(0,255) for x in range(BS)])
-    self.iv = b'\x17'*16                                        # DELETE THIS
+    self.iv = b'\x17'*16                                        # DELETE ME
     self.key = bytes([r.randint(0,255) for x in range(BS)])
-    self.key = b'\x18'*16                                       # DELETE THIS
+    self.key = b'\x18'*16                                       # DELETE ME
     self.enc_circuit = AES.new(self.key, AES.MODE_CBC, self.iv)
     self.random_pick = r.choice(pt_pool)
-    self.ct = self.enc_circuit.encrypt(pad(b64decode(self.random_pick), BS, style = 'pkcs7'))
+#    self.ct = self.enc_circuit.encrypt(pad(b64decode(self.random_pick), BS, style = 'pkcs7'))
+    self.ct = self.enc_circuit.encrypt(b64decode(self.random_pick))
     self.dec_circuit = AES.new(self.key, AES.MODE_CBC, self.iv)
     self.dec_circuit.decrypt(self.ct)
 
@@ -50,6 +52,7 @@ class CBC_Oracle_17:
   def fetch_challenge(self):
     print('Challenge: ', end='')
     print(self.ct, end='\n\n')
+    print('ct len: ' + str(len(self.ct)))
     return self.ct
 
   def query(self, b):
@@ -66,26 +69,39 @@ def generateKeys():
   for k in range(256):
     yield int.to_bytes(k, 1, sys.byteorder)
 
-def process_block_pair(oracle, ct0, ct1):
+def process_block_pair(oracle, ct):
+  complement = b''
   keys = generateKeys()
   for k in keys:
     try:
-                       # recovered: \x95\xfb\x04\xae\xd2\x88\x00\x7e
-      oracle.query( (b'A'*7) +k + b'\x9c\xf2\x0d\xa7\xdb\x81\x09\x77'+ct1)
+                       # from iv   b'\x17' * 16
+                       # from key  b'\x18' * 16
+                       # pt           b'a' * 16
+                       # recovered:  \x1d\x04\x7f\x96\xa4\xf8\xf1\xbbY\x02pO\x8a\xbe\x14p
+      oracle.query(
+                    strxor(                         \
+                            ((b'z'*0) + k + b'\x04\x7f\x96\xa4\xf8\xf1\xbbY\x02pO\x8a\xbe\x14p'),        \
+                            (b'\x00'*0 + b'\x10'*16)  \
+                    )                               \
+                    + ct                            \
+      )
       print(b'key found: ' + k)
+      print(ct)
       break
     except ValueError:
-      continue
-#      print(b'bad value: ' + k)
+      if k == 255:
+        raise Exception('Fatal.')
+      else:
+        continue
 
-#  print(ct0)
-#  print(ct1, end='\n\n')
-  return b''
+
+
+  return complement
 
 def main():
   julia = CBC_Oracle_17()
   ct = julia.fetch_iv() + julia.fetch_challenge()
-
+  print('ciphertext len is: ' + str(len(ct)))
   # break ct into 16-byte blocks
   ct_blocks = [ct[i:i+BS] for i in range(0, len(ct), BS)]
 
@@ -97,7 +113,9 @@ def main():
   # process target ct blocks in reverse order, pass with preceding ct block to decryptor function
 #  for i in range(len(ct_blocks)-2, -1, -1):
 #    response = process_block_pair(julia, ct_blocks[i], ct_blocks[i+1]) + response
-  response = process_block_pair(julia, ct_blocks[-2], ct_blocks[-1]) + response    # first block pair only
+  response = process_block_pair(julia, ct_blocks[-1]) + response    # first block pair only
+  print('c n-1:', end='')
+  print(ct_blocks[-2])
 
   julia.evaluate_response(response)
 
