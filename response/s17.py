@@ -10,11 +10,6 @@ from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
 from Crypto.Util.strxor import strxor
 
-# try:
-#   ...
-# except ValueError:
-#   ...
-
 BS = 16
 r.seed()
 pt_pool = [
@@ -29,20 +24,20 @@ pt_pool = [
             'MDAwMDA4b2xsaW4nIGluIG15IGZpdmUgcG9pbnQgb2g=',
             'MDAwMDA5aXRoIG15IHJhZy10b3AgZG93biBzbyBteSBoYWlyIGNhbiBibG93'
           ]
-pt_pool = ['YmJiYmJiYmJiYmJiYmJiYmFhYWFhYWFhYWFhYWFhYWE=']          # DELETE ME
+#pt_pool = ['YmJiYmJiYmJiYmJiYmJiYmFhYWFhYWFhYWFhYWFhYWE=']          # DELETE ME
 
 
 class CBC_Oracle_17:
 
   def __init__(self):
     self.iv = bytes([r.randint(0,255) for x in range(BS)])
-    self.iv = b'\x17'*16                                        # DELETE ME
+#    self.iv = b'\x17'*16                                        # DELETE ME
     self.key = bytes([r.randint(0,255) for x in range(BS)])
-    self.key = b'\x18'*16                                       # DELETE ME
+#    self.key = b'\x18'*16                                       # DELETE ME
     self.enc_circuit = AES.new(self.key, AES.MODE_CBC, self.iv)
     self.random_pick = r.choice(pt_pool)
-#    self.ct = self.enc_circuit.encrypt(pad(b64decode(self.random_pick), BS, style = 'pkcs7'))
-    self.ct = self.enc_circuit.encrypt(b64decode(self.random_pick))
+    self.ct = self.enc_circuit.encrypt(pad(b64decode(self.random_pick), BS, style = 'pkcs7'))
+#    self.ct = self.enc_circuit.encrypt(b64decode(self.random_pick))
     self.dec_circuit = AES.new(self.key, AES.MODE_CBC, self.iv)
     self.dec_circuit.decrypt(self.ct)
 
@@ -59,7 +54,7 @@ class CBC_Oracle_17:
     unpad(self.dec_circuit.decrypt(b), BS, style='pkcs7')
 
   def evaluate_response(self, b):
-    print('Julia says: ', end='')
+    print('\n\nJulia says: ', end='')
     if b == b64decode(self.random_pick):
       print('Good.')
     else:
@@ -77,29 +72,28 @@ def decrypt_complement(oracle, ct):
     keys = generateKeys()
     for k in keys:
       try:
-        qs = strxor(                                                                        \
+        ct_prev_tamper = strxor(                                                                        \
 #                     ((b'z'* (BS-x-1)) + k + complement),                                   \
                      (bytes([r.randint(0,255) for x in range(BS-x-1)]) + k + complement),   \
                      padmask                                                                \
         )
-        print(b'  qs: ' + qs )
-        oracle.query(qs + ct)
-        print(b'key found: ' + k)
+#        print(b'  q: ' + ct_prev_tamper )
+        oracle.query(ct_prev_tamper + ct)
+#        print(b'key found: ' + k)
         complement = k + complement
         break
       except ValueError:
         continue
     # endfor
-    print('finished outer for iter: ' + str(x))
+#    print('finished outer for iter: ' + str(x))
   # endfor
 
-  print(b'decrypt returning: ' + complement)
+#  print(b'decrypt returning: ' + complement)
   return complement
 
 def main():
   julia = CBC_Oracle_17()
   ct = julia.fetch_iv() + julia.fetch_challenge()
-  print('ciphertext len is: ' + str(len(ct)))
   # break ct into 16-byte blocks
   ct_blocks = [ct[i:i+BS] for i in range(0, len(ct), BS)]
 
@@ -108,13 +102,13 @@ def main():
   print('\n\n')
 
   response = b''
-  # process target ct blocks in reverse order, pass with preceding ct block to decryptor function
   for i in range(len(ct_blocks)-1, 0, -1):
     response = strxor(decrypt_complement(julia, ct_blocks[i]), ct_blocks[i-1]) + response
-#process_block_pair(julia, ct_blocks[i], ct_blocks[i+1]) + response
-#  response = strxor(decrypt_complement(julia, ct_blocks[-1]), ct_blocks[-2]) + response    # first block pair only
-  print(b' response: ' + response)
-  julia.evaluate_response(response)
+#  response = strxor(decrypt_complement(julia, ct_blocks[-1]), ct_blocks[-2]) + response    # first(last) block only
+
+  print('Response:')
+  print(unpad(response, BS, style='pkcs7'))
+  julia.evaluate_response(unpad(response, BS, style='pkcs7'))
 
 
 if __name__ == '__main__':
