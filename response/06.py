@@ -53,7 +53,15 @@ for x in keysizeCandidates:
 #    if ct %
     print( 'keysize ' + str(x) )
     print( 'singlekeyxor called on: ' )
+    somelist = []
     for i in range(len(ctListSlice)):
+        somelist.append(breakSingleKeyXOR(ctListSlice[i]))
         print( str(breakSingleKeyXOR(ctListSlice[i])) )
     print( '\n' )
+
+    out = ''
+    for i in zip(*somelist):
+        for j in i:
+            out += chr(j)
+    print(out)
 
