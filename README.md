@@ -4,6 +4,12 @@ Here lives my umpteenth attempt to sit still long enough to crank out a few solu
 
 _This writeup is a WIP. The present headlines are expected to be exhaustively final._
 
+- [ Objectives ](#objectives)
+- [ Things I Have Learned so Far During the Undertaking ](#learned)
+- [ Dues and Doodies ](#doodie)
+- [ Remarks and Commentary for Selected Exercises ](#remarks)
+
+<a name="objectives"></a>
 ## Objectives
 
 #### To hone my Python syntaxing for engagement in CTFs
@@ -22,6 +28,7 @@ So far, the experience I can best compare this to is reliving my kindergarten da
 
 While progress hasn't been swift, I find the yields already fruitful, and I see no reason to stop now. 
 
+<a name="learned"></a>
 ## Things I Have Learned so Far during the Undertaking
 
 #### The simplicity of the augmentative constructions built on top of the base encryption schemes
@@ -36,6 +43,7 @@ It serves to model a realistic trait or exhibited behavior of a live computer sy
 
 #### That I Must Not Stop doing what I want to do
 
+<a name="doodie"></a>
 ## Dues and Doodies
 
 To _Sir Psifertex_, I assign the distinction of having [casted the first baited hook](https://www.youtube.com/watch?v=okPWY0FeUoU&t=4m34s) that reeled me in to a culture that inspires my ongoing, longest-running push to buckle down and do what I want to do.
@@ -46,6 +54,7 @@ To _dc916_, I am grateful for, aside from a platform serving as an outlet, the c
 
 And to my _dearest_ reader, I beg your recognition that, while we're a colorful bunch, I'm just a guy.
 
+<a name="remarks"></a>
 ## Remarks and Commentary for Selected Exercises
 
 #### 12, 14. Byte-at-a-time ECB decryption
