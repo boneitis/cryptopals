@@ -14,11 +14,9 @@ To _Sir geohot_, I look upon, in his light of infamy, as a [relatable](https://w
 
 Where I stand today, my on-the-fly scripting lacks the refinement that resembles handy use of a readily available pocketknife, not to mention other outstanding tasks to [resolve P-vs-NP](https://www.youtube.com/watch?v=wf-BqAjZb8M&t=12m46s) and refresh my deeply rusted faculties in OOP and Go4 design patterns.
 
-Deeper still, the effective practice of Bash and Python scripting ought to feel like a natural extension of one's hands when diving into binaries, mapping web applications, and administering systems in general. I yet remain bogged down by Googling how to zip bytes in a desired manner or correctly create and apply generators.
+Deeper still, effective practice of scripting ought to feel like a natural extension of one's hands when diving into binaries, mapping web applications, and administering systems in general. I yet remain bogged down by Googling how to zip bytes in a desired manner or correctly create and apply generators.
 
 #### To feed on bite- and byte-sized research in modern applications of cryptography
-
-I find that the body is easily kept sharp with half-conscious nutritional intake, balanced gym workouts, and physical work.
 
 The stimulation and cultivation of intellectual curiosity in a technical discipline of personal interest represents my attempt to keep the mind sharp.
 
@@ -32,7 +30,7 @@ The stimulation and cultivation of intellectual curiosity in a technical discipl
 
 ## Dues and Doodies
 
-To dc916, I am thankful for providing me today and tomorrow, aside from a platform as my outlet, friendships and fellowship. If history has taught me anything, it is that it is unlikely unwise to not count on anything to last. You will be better self-served by distracting yourself with a few meaningful, shared experiences along the way while you move forward in yearning.
+To dc916, I am grateful for providing me today and tomorrow, aside from a platform as an outlet, friendships and fellowship. If history has taught me anything, it is that it is unlikely unwise to not count on anything to last. You will be better self-served by distracting yourself with a few meaningful, shared experiences along the way while you move forward in yearning.
 
 And to my dear reader, I beg your recognition that, while we're a colorful bunch, I'm just a guy.
 
@@ -42,17 +40,17 @@ And to my dear reader, I beg your recognition that, while we're a colorful bunch
 
 #### 10, 18. Implement CBC & CTR
 
-For quick learning, these exercises instruct you to manually replicate (and thus pick up on implicit hints for) the constructions on which you're about to mount your attacks. Difficult, they are not, but respite, they provide inbetween the more intense challenges. The biggest value they provide comes as a boost in self-confidence from the realization that comprehension of these [gorgeous machines](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC) is, in fact, [relatively simple](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CTR) and within reach of any curious mind.
+For quick learning, these exercises instruct you to manually replicate (and thus pick up on implicit hints for) the constructions on which you're about to mount your attacks. Difficult, they are not, but respite, they provide inbetween the more intense challenges. Their true value comes from the boost in self-confidence upon realizing that comprehension of these [gorgeous machines](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC) is, in fact, [relatively simple](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CTR) and within reach of any curious mind.
 
-Of fascinating note is how straightforward these overlying augmentations are in order to address the problems that arise from repeated plaintext blocks under a given key, despite having an underlying encryption algorithm with proven primitive security properties.
+What's fascinating is how straightforward these augmentations are in addressing weaknesses of the electronic codebook (ECB) and providing theoretically sound bit-shuffling, even in the presence of plaintext repetition.
 
-Even more amazing is, after two sets of fixation on CBC-mode constructions, the decoupled keystream of counter (CTR) mode and its newly realized advantages that envelop much more than the deceptively simplified problem description lets on.
+Further mesmerizing is the insight gleaned from a brief look at counter (CTR) mode and its decoupled keystream after two sets of fixation on CBC constructions. The undertaker who otherwise enters with [a vague notion of security primitives](https://www.coursera.org/learn/crypto) will be handsomely rewarded with even more profound appreciation for CTR mode's newly realized advantages.
 
 #### 16. CBC bitflipping attacks
 
 Attacks can also be [cheeky and cute](https://www.coursera.org/lecture/crypto/attacking-non-atomic-decryption-mtJS8).
 
-In a cipher block chaining (CBC) construction, even the painstaking effort to reject outright a metacharacter when parsing user-supplied strings can be sidestepped by providing a dormantly malicious placeholder-plaintext-letter by which, later on, its corresponding byte in the previous ciphertext (at this point under the attacker's arbitrary control) during decryption will be XOR-ed to sneak in that restricted character.
+In a cipher block chaining (CBC) construction, even the painstaking effort to reject outright a metacharacter when parsing user-supplied strings can be sidestepped by providing a dormantly malicious placeholder-letter by which, later on, its corresponding byte in the previous block of the ciphertext (at this point under the attacker's arbitrary control) during decryption will be XOR-ed to sneak in that restricted character.
 
 It bewilders me to imagine the extent of session hijacks, unintended shopping cart discounts, and disproportionate withdrawals accomplished by this silly attack.
 
