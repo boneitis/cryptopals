@@ -14,11 +14,17 @@ Deeper still, effective practice of scripting ought to feel like a natural exten
 
 #### To feed on bite- and byte-sized research in modern applications of cryptography
 
-The stimulation and cultivation of intellectual curiosity in a technical discipline of personal interest represents my attempt to keep the mind sharp.
+Also living here is an attempt at keeping the mind sharp.
+
+A brief perusal of the Cryptopals problems, alongside a coaxing claim of tractability without a hard requirement for higher mathematics, intimates potential for sweeping transfer of decades' worth of research knowledge to the wandering, prospective undertaker in just a handful of exercises, lickety split.
 
 ## Things I Have Learned so Far during the Undertaking
 
 #### The significance of the oracle construct in cryptography
+
+The attack oracle is not too unlike Santa Claus: artificially fabricated but very real.
+
+No claims are made regarding the attack oracle's relationship to the random oracle or generalized oracle machine in algorithmic analysis, and pay no mind to my having withdrawn from that advanced algorithms session a few years back. Hush for a moment as I sweep them under the rug.
 
 #### The simplicity of the augmentative constructions built on top of the base encryption schemes
 
@@ -44,7 +50,7 @@ For quick learning, these exercises instruct you to manually replicate (and thus
 
 What's fascinating is how straightforwardly these augmentations address weaknesses in ECB and provide for theoretically sound bit-shuffling, even in the presence of plaintext repetition.
 
-Further mesmerizing is the insight gleaned from a brief look at counter (CTR) mode and its decoupled keystream after two sets of fixation on CBC constructions. The undertaker who otherwise enters with [a vague notion of security primitives](https://www.coursera.org/learn/crypto) will be handsomely rewarded with even more profound appreciation for CTR mode's newly realized advantages.
+Further mesmerizing is the insight gleaned from a brief look at counter (CTR) mode and its decoupled keystream after two sets of fixation on pure block ciphers. The undertaker who otherwise enters with [a vague notion of security primitives](https://www.coursera.org/learn/crypto) will be handsomely rewarded with even more profound appreciation for CTR mode's newly realized advantages.
 
 #### 16. CBC bitflipping attacks
 
