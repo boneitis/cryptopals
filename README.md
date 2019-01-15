@@ -16,13 +16,13 @@ _This writeup is a WIP. The present headlines are expected to be exhaustively fi
 
 Where I stand today, my on-the-fly scripting lacks the refinement that resembles handy use of a readily available pocketknife, not to mention other outstanding tasks to [resolve P-vs-NP](https://www.youtube.com/watch?v=wf-BqAjZb8M&t=12m46s) and refresh my deeply rusted faculties in OOP and Go4 design patterns.
 
-Deeper still, effective practice of scripting ought to feel like a natural extension of one's hands when diving into binaries, mapping web applications, and administering systems in general. I yet remain bogged down by Googling how to zip bytes in a desired manner or correctly create and apply generators.
+Deeper still, effective scripting practice ought to feel like a natural extension of one's hands when diving into binaries, mapping web applications, and administering systems in general. I yet remain bogged down by Googling how to zip bytes in a desired manner or correctly create and apply generators.
 
 #### To feed on bite- and byte-sized research in modern applications of cryptography
 
 Also living here is an attempt at keeping the mind sharp.
 
-A brief perusal of the Cryptopals problems, alongside a coaxing claim of tractability without a hard requirement for higher mathematics, intimates potential for sweeping transfer of decades' worth of research knowledge to the wandering, prospective undertaker in just a handful of exercises, lickety split. This is especially so, noting that just about any other content put out by Ptacek I look for has turned out to already be neatly presented in the exercises.
+A brief perusal of the Cryptopals problems, alongside a coaxing claim of tractability without a hard requirement for higher mathematics, intimates potential for sweeping transfer of decades' worth of research knowledge to the wandering, prospective undertaker in just a handful of exercises, lickety split. This is especially so, noting that just about any other technical content put out by Ptacek I look for has turned out to already be neatly presented in the exercises.
 
 So far, the experience I can best compare this to is reliving my kindergarten days playing with building blocks or, my favorite toy set in the classroom, the marble run. I get to work on incredibly marvelous constructions through direct, hands-on interaction with the raw bits in a safe environment graciously provided for by Ptacek, et al. Everything plays by _my_ rules, and if something doesn't work correctly, it is _my_ own fault. It is a thoroughly liberating exercise of freedom.
 
