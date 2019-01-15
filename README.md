@@ -40,9 +40,9 @@ And to my dear reader, I beg your recognition that, while we're a colorful bunch
 
 #### 10, 18. Implement CBC & CTR
 
-For quick learning, these exercises instruct you to manually replicate (and thus pick up on implicit hints for) the constructions on which you're about to mount your attacks. Difficult, they are not, but respite, they provide inbetween the more intense challenges. Their true value comes from the boost in self-confidence upon realizing that comprehension of these [gorgeous machines](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC) is, in fact, [relatively simple](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CTR) and within reach of any curious mind.
+For quick learning, these exercises instruct you to manually replicate (and thus pick up on implicit hints for) the constructions on which you're about to mount your attacks. Difficult, they are not, but respite, they provide inbetween the more intense challenges. Their true value comes from the boost in self-confidence upon realizing that [comprehension](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC) of these [gorgeous machines](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CTR), in fact, lies within reach of any curious mind.
 
-What's fascinating is how straightforward these augmentations are in addressing weaknesses of the electronic codebook (ECB) and providing theoretically sound bit-shuffling, even in the presence of plaintext repetition.
+What's fascinating is how straightforwardly these augmentations address weaknesses in ECB and provide for theoretically sound bit-shuffling, even in the presence of plaintext repetition.
 
 Further mesmerizing is the insight gleaned from a brief look at counter (CTR) mode and its decoupled keystream after two sets of fixation on CBC constructions. The undertaker who otherwise enters with [a vague notion of security primitives](https://www.coursera.org/learn/crypto) will be handsomely rewarded with even more profound appreciation for CTR mode's newly realized advantages.
 
