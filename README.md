@@ -20,13 +20,15 @@ A brief perusal of the Cryptopals problems, alongside a coaxing claim of tractab
 
 ## Things I Have Learned so Far during the Undertaking
 
-#### The significance of the oracle construct in cryptography
+#### The simplicity of the augmentative constructions built on top of the base encryption schemes
 
-The attack oracle is not too unlike Santa Claus: artificially fabricated but very real.
+#### The significance of the oracle construct in cryptography
 
 No claims are made regarding the attack oracle's relationship to the random oracle or generalized oracle machine in algorithmic analysis, and pay no mind to my having withdrawn from that advanced algorithms session a few years back. Do hush for a moment as I sweep them under the rug.
 
-#### The simplicity of the augmentative constructions built on top of the base encryption schemes
+The oracle as it concerns me provides a service, computational or otherwise, that can be leveraged to mount attacks on the target system. It can be queried as much as desired, if its definition (and your computational resources for a local implementation) allows for it. When provided the particular parameters it requests to process a query, it will yield a usually very specific piece of information.
+
+It serves to model a realistic trait or exhibited behavior of a live computer system that performs services probably more useful than those provided by a machine that only communicates, once, through the ultimately secure, one-time pad under a single key.
 
 #### That I Must Not Stop doing what I want to do
 
