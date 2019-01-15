@@ -36,7 +36,7 @@ To _Sir Psifertex_, I assign the distinction of having [casted the first baited 
 
 To _Sir geohot_, I look upon, in his light of infamy, as a [relatable](https://www.youtube.com/watch?v=AerjS7PTNYs&t=6m42s) and [timeless](https://www.youtube.com/watch?v=eGl6kpSajag&t=11m16s)... model.
 
-To _dc916_, I am grateful for providing me today and tomorrow, aside from a platform to serve as an outlet, friendships and fellowship. If history has taught me anything, it is that it is unlikely unwise to not count on anything to last. You will be better self-served by distracting yourself with a few meaningful, shared experiences along the way while you move forward in yearning.
+To _dc916_, I am grateful for providing me today, aside from a platform serving as an outlet, camaraderie. If history has taught me anything, it is that it is unlikely unwise to not count on anything to last. You will be better self-served by distracting yourself with a few meaningful, shared experiences along the way while you move forward in yearning.
 
 And to my _dearest_ reader, I beg your recognition that, while we're a colorful bunch, I'm just a guy.
 
