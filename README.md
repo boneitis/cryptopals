@@ -24,7 +24,7 @@ A brief perusal of the Cryptopals problems, alongside a coaxing claim of tractab
 
 The attack oracle is not too unlike Santa Claus: artificially fabricated but very real.
 
-No claims are made regarding the attack oracle's relationship to the random oracle or generalized oracle machine in algorithmic analysis, and pay no mind to my having withdrawn from that advanced algorithms session a few years back. Hush for a moment as I sweep them under the rug.
+No claims are made regarding the attack oracle's relationship to the random oracle or generalized oracle machine in algorithmic analysis, and pay no mind to my having withdrawn from that advanced algorithms session a few years back. Do hush for a moment as I sweep them under the rug.
 
 #### The simplicity of the augmentative constructions built on top of the base encryption schemes
 
