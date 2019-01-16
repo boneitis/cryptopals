@@ -16,7 +16,7 @@ _This writeup is a WIP. The present headlines are expected to be exhaustively fi
 
 Where I stand today, my on-the-fly scripting lacks the refinement that resembles handy use of a readily available pocketknife, not to mention other outstanding tasks to [resolve P-vs-NP](https://www.youtube.com/watch?v=wf-BqAjZb8M&t=12m46s) and refresh my deeply rusted faculties in OOP and Go4 design patterns.
 
-Deeper still, effective scripting practice ought to feel like a natural extension of one's hands when diving into binaries, mapping web applications, and administering systems in general. I yet remain bogged down by Googling how to zip bytes in a desired manner or correctly create and apply generators.
+Deeper still, effective scripting practice ought to feel like a natural extension of one's hands when diving into binaries, mapping web applications, or administering systems in general. I yet remain bogged down by Googling how to zip bytes in a desired manner or correctly create and apply generators.
 
 #### To feed on bite- and byte-sized research in modern applications of cryptography
 
