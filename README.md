@@ -26,7 +26,7 @@ A brief perusal of the Cryptopals problems, alongside a coaxing claim of tractab
 
 How credible is it? Surely, it must be, considering that just about any other technical content I come across by Ptacek turns out to already have been more cleanly presented in the exercises.
 
-So far, the experience I can best compare this to is reliving my kindergarten days playing with building blocks or, my favorite toy set in the classroom, the marble run. I get to work on marvelous constructions by direct, hands-on interaction with the raw bits in a playground where everything plays by _my_ rules, and if something doesn't work correctly, it is _my_ own fault.
+So far, the experience I can best compare this to is reliving my kindergarten days playing with building blocks or, my favorite toy set in the classroom, the marble run. I get to work on marvelous constructions by direct, hands-on interaction with the raw bits in a playground where everything plays by _my_ rules, and anything that doesn't bend to my will is _my_ own fault.
 
 It is a thoroughly liberating exercise of freedom.
 
