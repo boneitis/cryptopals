@@ -43,7 +43,7 @@ No claims are made regarding the attack oracle's relationship to the random orac
 
 The oracle as it concerns me provides a service, computational or otherwise, that can be leveraged to mount attacks on the target system. It can be queried as much as desired, if its definition (and your computational resources for a local implementation) allows for it. When offered its requested parameters, it will yield a peculiarly specific piece of information.
 
-It serves to model a realistic trait or exhibited behavior of a live computer system that performs services probably more useful than those provided by a machine that only communicates, once, through the ultimately secure, one-time pad under a single key.
+It serves to model a realistic trait or exhibited behavior of a live, practical system that performs services probably more useful than those provided by a machine that only communicates, once, through the ultimately secure, one-time pad under a single key.
 
 #### That I Must Not Stop doing what I want to do
 
