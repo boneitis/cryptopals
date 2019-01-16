@@ -22,7 +22,9 @@ Deeper still, effective scripting practice ought to feel like a natural extensio
 
 Also living here is an attempt to keep the mind sharp.
 
-A brief perusal of the Cryptopals problems, alongside a coaxing claim of tractability without the hard requirement for higher mathematics, intimates potential for sweeping transfer of decades' worth of research knowledge to the wandering, prospective undertaker in just a handful of exercises, lickety split. This is especially so, noting that just about any other technical content I come across by Ptacek turns out to already have been neatly presented in the exercises.
+A brief perusal of the Cryptopals problems, alongside a coaxing claim of tractability without the hard requirement for higher math, intimates potential for sweeping transfer of decades' worth of research knowledge to the wandering, prospective undertaker. And, it dares profess to accomplish this in just a handful of exercises, lickety split.
+
+How credible is it? Surely, it must be, considering that just about any other technical content I come across by Ptacek turns out to already have been more cleanly presented in the exercises.
 
 So far, the experience I can best compare this to is reliving my kindergarten days playing with building blocks or, my favorite toy set in the classroom, the marble run. I get to work on marvelous constructions by direct, hands-on interaction with the raw bits in a playground. Everything plays by _my_ rules, and if something doesn't work correctly, it is _my_ own fault. It is a thoroughly liberating exercise of freedom.
 
