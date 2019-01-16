@@ -63,6 +63,8 @@ And to my _dearest_ reader, I beg your recognition that, while we're a colorful 
 
 #### 12, 14. Byte-at-a-time ECB decryption
 
+This attack comes to life via an injection point into the target plaintext (such as a user-supplied field in a cookie) and an oracle that will yield its electronic codebook (ECB) encryption when queried. The remaining ciphertext stream following behind the injection point can be revealed by easing bytes one at a time across cipher block borders and running a 2<sup>8</sup> check for each byte (or tighter still, less an order of magnitude for a printable ASCII target), knowing ahead of time the preceding bytes in the block.
+
 #### 10, 18. Implement CBC & CTR
 
 For quick learning, these exercises instruct you to manually replicate (and thus pick up on implicit hints for) the constructions on which you're about to mount your attacks. Difficult, they are not, but respite, they provide inbetween the more intense challenges. Their true value comes from the boost in self-confidence upon realizing that [comprehension of](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC) these [gorgeous machines](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CTR), in fact, lies within reach of any curious mind.
