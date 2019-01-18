@@ -30,10 +30,6 @@ def generate_ct():
 
 def __main__():
   c = generate_ct()
-#  print('len is : ' + str(len(c)))
-#  print('asdf')
-#  for line in c:
-#    print(line)
 
   smallest_len = None
   for line in c:
@@ -42,23 +38,12 @@ def __main__():
     else:
       if len(line) < smallest_len:
         smallest_len = len(line)
-#  print(smallest_len)
 
   c_cat = b''
   for line in c:
     c_cat += line[:smallest_len]
-#  print('*** len is:', end='')
-#  print(str(len(c_cat)))
-#  print(c_cat)
+
   print(base64.b64encode(c_cat).decode(), end='')
-
-
-#  q = b''.join(b''.join(x) for x in zip(*c))
-#  print(q)
-#  for line in c:
-#    q.append(line[:smallest_len])
-
-
 
 if __name__ == '__main__':
   __main__()
