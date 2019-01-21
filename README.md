@@ -1,6 +1,8 @@
 # cryptopals
 
-Here lives my umpteenth attempt to sit still long enough to crank out a few solutions. Behold __Cryptopals__, [a series of coding challenges in modern cryptography](https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/). Why spend time cleaning up code when there are horns to toot?
+Here lives my umpteenth attempt to sit still long enough to crank out a few solutions.
+
+Behold __Cryptopals__, [a series of coding challenges in modern cryptography](https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/). Why spend time cleaning up code when there are horns to toot?
 
 - [ Objectives ](#objectives)
 - [ Things I Have Learned so Far During the Undertaking ](#learned)
