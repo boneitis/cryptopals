@@ -14,7 +14,7 @@ _This writeup is a WIP. The present headlines are expected to be exhaustively fi
 <a name="objectives"></a>
 ## Objectives
 
-#### To hone my Python syntaxing for engagement in CTFs
+#### To hone my Python syntaxing for CTF engagements
 
 Where I stand today, my on-the-fly scripting lacks the refinement that resembles handy use of a readily available pocketknife, not to mention other outstanding, pressing tasks to [resolve P-vs-NP](https://www.youtube.com/watch?v=wf-BqAjZb8M&t=12m46s) and refresh my deeply rusted faculties in OOP and Go4 design patterns.
 
