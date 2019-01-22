@@ -90,7 +90,7 @@ For quick learning, these exercises instruct you to manually replicate (and pick
 
 What's fascinating is how straightforwardly these augmentations address weaknesses in ECB and provide for theoretically sound bit-shuffling, even in the presence of plaintext repetition.
 
-Further mesmerizing is the insight gleaned from a brief look at counter (CTR) mode and its decoupled keystream after two challenge sets of fixation on pure block ciphers. The undertaker who otherwise enters with [a vague notion of security primitives](https://www.coursera.org/learn/crypto) will be handsomely rewarded with even more profound appreciation for CTR mode's newly realized advantages.
+Further mesmerizing is the insight gleaned from a brief look at counter (CTR) mode and its decoupled keystream after two challenge sets of fixation on pure block ciphers. The undertaker who approaches with [a vague notion of security primitives](https://www.coursera.org/learn/crypto) will be handsomely rewarded with even more profound appreciation for CTR mode's newly realized advantages.
 
 #### 16. CBC bitflipping attacks
 
