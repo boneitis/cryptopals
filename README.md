@@ -82,7 +82,9 @@ Among the invariants to manage are:
  - a block index that, absent any mechanism to consume input, triggers a reset of the byte index when incremented,
  - all the while accommodating a blind offset into the entry block
 
-Considering in hindsight the spread of milestones over multiple trials, there is room for a concession after all that mercy may have been mistaken for madness, [mental illness](https://www.youtube.com/watch?v=iZa_XKpj9X4&t=5m05s) notwithstanding.
+Considering in hindsight the spread of milestones over multiple trials, there is room for a concession after all that mercy may have been mistaken for madness.
+
+dude's still [mentally ill](https://www.youtube.com/watch?v=iZa_XKpj9X4&t=5m05s), though.
 
 #### 10, 18. Implement CBC & CTR
 
