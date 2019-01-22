@@ -71,7 +71,7 @@ And to my _dearest_ reader, I beg your recognition that, while we're a colorful 
 
 #### 12, 14. Byte-at-a-time ECB decryption
 
-The attack vector here is exposed via an injection point into the target plaintext (such as a cookie with user-supplied fields) and an oracle that will yield its electronic codebook (ECB) encryption when queried. The following data behind the injection point can be revealed by easing bytes one at a time across cipher block borders and running a 2<sup>8</sup> dictionary check for each candidate final byte (or tighter still, less an order of magnitude for a printable ASCII target), knowing ahead of time the preceding bytes in the block.
+The attack vector here is exposed via an injection point into the target plaintext (such as a cookie with user-supplied fields) and an oracle that will yield its electronic codebook (ECB) encryption when queried. The data following behind the point of entry can be revealed by easing bytes one at a time across cipher block borders and running a 2<sup>8</sup> dictionary check for each candidate final byte (or tighter still, less an order of magnitude for a printable ASCII target), knowing ahead of time the preceding bytes in the block.
 
 Fossilized footprints along this stretch of road hint to the dangers of an overempowered oracle. Suggestive to the presence of a mentally-ill madman, curious is the omitted detail of the encryption oracle's lack of ability to "consume" the input (and the resultant threat to my predecessors of a rejected submission) when decrypting beyond the first cipher block from the entry point. Nevertheless, in my vigilance, I escaped a grave calamity of partial exercise in ignorance to the problem description's additional, camoflauged dimension.
 
