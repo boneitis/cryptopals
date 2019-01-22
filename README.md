@@ -41,7 +41,7 @@ It is a thoroughly liberating exercise of freedom.
 
 No claims are made regarding the attack oracle's relationship to the random oracle or generalized oracle machine in algorithmic analysis, and pay no mind to my having withdrawn from that advanced algorithms session a few years back. Do hush for a moment as I sweep them under the rug.
 
-The oracle as it concerns me provides a service, computational or otherwise, that can be leveraged to mount attacks on the target system. It can be queried as much as desired, if its definition and your available resources allow for it. If granted its requested parameters, the oracle, in its grace, will yield a peculiarly specific piece of information.
+The oracle as it concerns me provides a service, computational or otherwise, that can be leveraged to mount attacks on the target system. It can be queried as much as desired, if its definition and your available resources allow for it. When granted its requested parameters, the ever gracious oracle yields a peculiarly specific piece of information.
 
 It serves to model a realistic trait or exhibited behavior of a live, practical system that performs services probably more useful than those provided by a machine that only communicates, once, through the ultimately secure one-time pad under a single key.
 
@@ -71,34 +71,34 @@ And to my _dearest_ reader, I beg your recognition that, while we're a colorful 
 
 #### 12, 14. Byte-at-a-time ECB decryption
 
-The attack vector here is exposed via an injection point into the target plaintext (such as a user-supplied field in a cookie) and an oracle that will yield its electronic codebook (ECB) encryption when queried. The following data behind the injection point can be revealed by easing bytes one at a time across cipher block borders and running a 2<sup>8</sup> dictionary check for each candidate final byte (or tighter still, less an order of magnitude for a printable ASCII target), knowing ahead of time the preceding bytes in the block.
+The attack vector here is exposed via an injection point into the target plaintext (such as a cookie with user-supplied fields) and an oracle that will yield its electronic codebook (ECB) encryption when queried. The following data behind the injection point can be revealed by easing bytes one at a time across cipher block borders and running a 2<sup>8</sup> dictionary check for each candidate final byte (or tighter still, less an order of magnitude for a printable ASCII target), knowing ahead of time the preceding bytes in the block.
 
-Fossilized footprints along this stretch of road hint to the dangers of an overempowered oracle. Suggestive to the presence of a mentally-ill madman, curious is the omitted detail of the encryption oracle's lack of ability to "consume" the input (and the resultant threat to my predecessors of a rejected submission) when decrypting beyond the first cipher block from the entry point. Nevertheless, in my vigilance, I escaped the great tragedy of overlooking the problem description's additional, camoflauged dimension and benefitted fully from the exercise.
+Fossilized footprints along this stretch of road hint to the dangers of an overempowered oracle. Suggestive to the presence of a mentally-ill madman, curious is the omitted detail of the encryption oracle's lack of ability to "consume" the input (and the resultant threat to my predecessors of a rejected submission) when decrypting beyond the first cipher block from the entry point. Nevertheless, in my vigilance, I escaped a grave calamity of partial exercise in ignorance to the problem description's additional, camoflauged dimension.
 
-The final solution calls for a juggling act wherein the fully-suspended attacker orchestrates, with razor-sharp precision, several loop invariants in tandem to reground him-/herself and correctly summon the bytes in order.
+The final solution calls for a juggling act wherein the fully-suspended attacker orchestrates, with razor-sharp precision, several loop invariants in tandem to reground him-/herself and summon the correct order of bytes.
 
-Among the invariants to accommodate are:
+Among the invariants to manage are:
  - a byte index within a cipher block, which must be reconciled against...
- - a block index that, when incremented, triggers a reset of the byte index, absent any means to consume the input,
- - all the while anticipating a blind offset into the entry block
+ - a block index that, absent any mechanism to consume input, triggers a reset of the byte index when incremented,
+ - all the while accommodating a blind offset into the entry block
 
-Considering in hindsight however the spread of piecemeal progression over multiple trials, there is room for a concession that mercy may have been mistaken for madness, [mental illness](https://www.youtube.com/watch?v=iZa_XKpj9X4&t=5m05s) notwithstanding.
+Considering in hindsight the spread of milestones over multiple trials, there is room for a concession after all that mercy may have been mistaken for madness, [mental illness](https://www.youtube.com/watch?v=iZa_XKpj9X4&t=5m05s) notwithstanding.
 
 #### 10, 18. Implement CBC & CTR
 
-For quick learning, these exercises instruct you to manually replicate (and thus pick up on implicit hints for) the constructions on which you're about to mount your attacks. Difficult, they are not, but respite, they provide inbetween the more intense challenges. Their true value comes from the boost in self-confidence upon realizing that [comprehension of](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC) these [gorgeous machines](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CTR), in fact, lies within reach of any curious mind.
+For quick learning, these exercises instruct you to manually replicate (and pick up on implicit hints for) the constructions on which you're about to mount your attacks. Difficult, they are not, but respite, they provide inbetween the more intense challenges. Their true value comes from the boost in self-confidence upon realizing that [comprehension of](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CBC) these [gorgeous machines](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#CTR), in fact, lies within reach of any curious mind.
 
 What's fascinating is how straightforwardly these augmentations address weaknesses in ECB and provide for theoretically sound bit-shuffling, even in the presence of plaintext repetition.
 
-Further mesmerizing is the insight gleaned from a brief look at counter (CTR) mode and its decoupled keystream after two sets of fixation on pure block ciphers. The undertaker who otherwise enters with [a vague notion of security primitives](https://www.coursera.org/learn/crypto) will be handsomely rewarded with even more profound appreciation for CTR mode's newly realized advantages.
+Further mesmerizing is the insight gleaned from a brief look at counter (CTR) mode and its decoupled keystream after two challenge sets of fixation on pure block ciphers. The undertaker who otherwise enters with [a vague notion of security primitives](https://www.coursera.org/learn/crypto) will be handsomely rewarded with even more profound appreciation for CTR mode's newly realized advantages.
 
 #### 16. CBC bitflipping attacks
 
 Attacks can also be [cheeky and cute](https://www.coursera.org/lecture/crypto/attacking-non-atomic-decryption-mtJS8).
 
-In a cipher block chaining (CBC) construction, even the painstaking effort to reject outright a metacharacter when parsing user-supplied strings can be sidestepped by providing a dormantly malicious placeholder-letter by which, later on, its corresponding byte in the previous block of the ciphertext (at this point under the attacker's control) during decryption will be XOR-ed to sneak in that restricted character.
+In a cipher block chaining (CBC) construction, even the painstaking effort to reject outright a metacharacter when parsing user-supplied strings can be sidestepped by feeding a dormantly malicious placeholder-letter by which, later on, its corresponding byte in the previous block of the ciphertext (at this point under the attacker's control) during decryption will be XOR-ed to sneak in that restricted character.
 
-It bewilders me to imagine the extent of session hijacks, unintended shopping cart discounts, and disproportionate withdrawals accomplished by this silly attack.
+It bewilders me to imagine the extent of session hijacks, unintended shopping cart discounts, and disproportionate withdrawals accomplished by this silly attack in the wild.
 
 #### 17. The CBC padding oracle
 
