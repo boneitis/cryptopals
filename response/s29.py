@@ -4,7 +4,9 @@ $ python3 s29.py
 
 '''
 
-import sys
+from Crypto.Random import get_random_bytes
+from Crypto.Random.random import randint
+from Crypto.Random.random import choice
 from Crypto.Util.strxor import strxor
 
 class SHA1_29:
@@ -14,6 +16,9 @@ class SHA1_29:
     self.h2_0 = 0x98badcfe
     self.h3_0 = 0x10325476
     self.h4_0 = 0xc3d2e1f0
+###    self.key = choice(open('/usr/share/dict/words').read().splitlines()).encode()
+    self.key = b'AAAA'
+    self.known_pt = b'comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon'
 
   def preprocess(self, m):
     ml = len(m) * 8
@@ -27,14 +32,30 @@ class SHA1_29:
 #    print('post-pre-process length', len(m), 'of m: \n', m)
     return m
 
-  def digest(self, m):
-    h0 = self.h0_0
-    h1 = self.h1_0
-    h2 = self.h2_0
-    h3 = self.h3_0
-    h4 = self.h4_0
+  def digest(self, m, stage=None):
+    print('stage:', stage)
+    if stage is None:
+      h0 = self.h0_0
+      h1 = self.h1_0
+      h2 = self.h2_0
+      h3 = self.h3_0
+      h4 = self.h4_0
+      m = self.preprocess(m)
+    else:
+      assert type(stage) is bytes
+      assert len(stage) == 20
+      # break it up
+      stage_register = []
+      for i in range(5):
+        stage_register.append(int.from_bytes(stage[i*4 : (i+1)*4], 'big'))
+#      print(stage_register)
+      h0 = stage_register[0]
+      h1 = stage_register[1]
+      h2 = stage_register[2]
+      h3 = stage_register[3]
+      h4 = stage_register[4]
 
-    m = self.preprocess(m)
+#    m = self.preprocess(m)
     chunks = []
     for i in range(0, len(m), 64):
       chunks.append(m[i:i+64])
@@ -55,12 +76,19 @@ class SHA1_29:
 #      print('post 80:', w)
 #      print('number of words in chunk:', len(w))
 
+#      if stage is None:
       a = h0
       b = h1
       c = h2
       d = h3
       e = h4
-
+#      else:
+#        a = stage_register[0]
+#        b = stage_register[1]
+#        c = stage_register[2]
+#        d = stage_register[3]
+#        e = stage_register[4]
+#        print(a, b, c, d, e)
       for Main_Iteration in range(80):
         if Main_Iteration < 20:
           f = (b & c) | ((~b) & d)
@@ -95,7 +123,23 @@ class SHA1_29:
     h3_1 = h3.to_bytes(4, 'big')
     h4_1 = h4.to_bytes(4, 'big')
     hh = h0_1 + h1_1 + h2_1 + h3_1 + h4_1
-    print(hh.hex())
+    return hh
+
+  def challenge(self):
+    print('oracle: digesting... ' + (self.key + b'comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon').decode() + ' with keylen ' + str(len(self.key)))
+    return self.digest(self.key + b'comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon')
+
+  def verify(self, m, t):
+    return self.digest(m) == t
+
+  def authenticate_admin(self, m, t):
+    print('oracle auth: about to digest', self.key, 'and', m)
+    if self.digest(self.key + m) == t:
+      print('oracle: keylen ' + str(len(self.key)))
+      return b';admin=true' in m
+    else:
+      print('oracle: auth failed, got:\n', self.digest(self.key + m), 'versus\n', t)
+      return False
 
 def main():
   x1 = b'Fox'                                          # dfcd3454bbea788a751a696c24d97009ca992d17
@@ -105,13 +149,47 @@ def main():
   x5 = b'The red fox\njumps oer\nthe blue dog'         # 8acad682d5884c754bf417997d88bcf892b96a6c
 
   mysha1 = SHA1_29()
-#  mysha1.digest(b'A'*64 + b'B'*64 + b'C'*55)
-  mysha1.digest(x1)
-  mysha1.digest(x2)
-  mysha1.digest(x3)
-  mysha1.digest(x4)
-  mysha1.digest(x5)
-#  mysha1.digest(b'A'*512 + b'B'*512 + b'C'*512)
+#  tag = mysha1.digest(x1)
+#  print(tag.hex())
+
+#  if mysha1.verify(x1, tag):
+#    print('huzzah')
+#  else:
+#    print('kaboom')
+
+  challenge = mysha1.challenge()
+
+  aux = SHA1_29()
+
+  original_message = b'comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon'
+#  new_message = b';admin=true' + b'\x80' + (b'\x00' * 44) + (1112).to_bytes(8, 'big')
+  new_message = b';admin=true'
+
+  resume_tag = aux.digest(new_message + b'\x80' + (b'\x00' * 44) + (1112).to_bytes(8, 'big'), challenge)
+  print('resume:\n', resume_tag)
+
+#  for guess_keylen in range(1, 24):
+  for guess_keylen in range(4,5):
+    glue_padding = b'\x80' + ((120 - (77 + guess_keylen + 1)) * b'\x00') + ((77 + guess_keylen)*8).to_bytes(8, 'big')
+    query = original_message + glue_padding + new_message
+    if mysha1.authenticate_admin(query, resume_tag):
+      print('authenticated at keylen ' + str(guess_keylen))
+      print('huzzah')
+      break
+    else:
+      print(str(guess_keylen) + '...kaboom')
+
+#  tag = mysha1.challenge(x2)
+#  print(tag.hex())
+
+#  tag = mysha1.challenge(x3)
+#  print(tag.hex())
+
+#  tag = mysha1.challenge(x4)
+#  print(tag.hex())
+
+#  tag = mysha1.challenge(x5)
+#  print(tag.hex())
 
 if __name__ == '__main__':
   main()
