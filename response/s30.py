@@ -5,7 +5,7 @@ $ python3 s30.py
 print(hashlib.new("md4", b'asdf'.hexdigest())
 
 '''
-import hashlib
+from Crypto.Random.random import choice
 
 class MD4_30:
   def __init__(self):
@@ -13,13 +13,10 @@ class MD4_30:
     self.B_0 = 0xefcdab89
     self.C_0 = 0x98badcfe
     self.D_0 = 0x10325476
-#    self.A_0 = 0x01234567
-#    self.B_0 = 0x89abcdef
-#    self.C_0 = 0xfedcba98
-#    self.D_0 = 0x76543210
     self.Magic2 = 0x5a827999
     self.Magic3 = 0x6ed9eba1
-    self.Mask = 0xffffffff
+#    self.key = b'AAAA'
+    self.key = choice(open('/usr/share/dict/words').read().splitlines()).encode()
 
   def preprocess(self, m):
     ml = len(m) * 8
@@ -33,10 +30,7 @@ class MD4_30:
     return m
 
   def f(self, X, Y, Z):
-    print('f() received:', X, Y, Z)
-    retval = (X & Y) | (((~X) & 0xffffffff) & Z)
-    print('f() returning:', retval)
-    return retval
+    return (X & Y) | (((~X) & 0xffffffff) & Z)
 
   def g(self, X, Y, Z):
     return (X & Y) | (X & Z) | (Y & Z)
@@ -171,11 +165,8 @@ class MD4_30:
       B = self.B_0
       C = self.C_0
       D = self.D_0
-#      AA = A
-#      BB = B
-#      CC = C
-#      DD = D
       m = self.preprocess(m)
+#      print('m pre-processed:', m)
     else:
       assert type(stage) is bytes
       assert len(stage) == 16
@@ -186,10 +177,6 @@ class MD4_30:
       B = stage_register[1]
       C = stage_register[2]
       D = stage_register[3]
-#      AA = A
-#      BB = B
-#      CC = C
-#      DD = D
 
     chunks = []
     for i in range(0, len(m), 64):
@@ -206,19 +193,19 @@ class MD4_30:
 #        print('temp:', temp)
 #        X.append(int.from_bytes(temp[2:] + temp[:2], 'little'))
         X.append(int.from_bytes(chunk[(j * 4) : (j*4)+4 ], 'little'))
-      print('chunk:', chunk)
-      print('X:', X, end='\n\n')
-      print('Before Anything:\nA:', A, 'B:', B, 'C:', C, 'D:', D)
+##      print('chunk:', chunk)
+##      print('X:', X, end='\n\n')
+##      print('Before Anything:\nA:', A, 'B:', B, 'C:', C, 'D:', D)
 
       ABCD = self.round1(A, B, C, D, X)
-      print('Round 1 results:\nA:', ABCD[0], 'B:', ABCD[1], 'C:', ABCD[2], 'D:', ABCD[3])
+##      print('Round 1 results:\nA:', ABCD[0], 'B:', ABCD[1], 'C:', ABCD[2], 'D:', ABCD[3])
       ABCD = self.round2(ABCD[0], ABCD[1], ABCD[2], ABCD[3], X)
-      print('Round 2 results:\nA:', ABCD[0], 'B:', ABCD[1], 'C:', ABCD[2], 'D:', ABCD[3])
+##      print('Round 2 results:\nA:', ABCD[0], 'B:', ABCD[1], 'C:', ABCD[2], 'D:', ABCD[3])
       ABCD = self.round3(ABCD[0], ABCD[1], ABCD[2], ABCD[3], X)
-      print('Round 3 results:\nA:', ABCD[0], 'B:', ABCD[1], 'C:', ABCD[2], 'D:', ABCD[3])
+##      print('Round 3 results:\nA:', ABCD[0], 'B:', ABCD[1], 'C:', ABCD[2], 'D:', ABCD[3])
 
       A = (ABCD[0] + AA) % 0x100000000
-      print('Round 3 results:\nA:', A, 'B:', B, 'C:', C, 'D:', D)
+##     print('Round 3 results:\nA:', A, 'B:', B, 'C:', C, 'D:', D)
       B = (ABCD[1] + BB) % 0x100000000
       C = (ABCD[2] + CC) % 0x100000000
       D = (ABCD[3] + DD) % 0x100000000
@@ -229,21 +216,57 @@ class MD4_30:
     d = D.to_bytes(4, 'little')
     return a + b + c + d
 
+  def challenge(self):
+    print('oracle: digesting... ' + (self.key + b'comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon').decode() + ' with keylen ' + str(len(self.key)))
+    return self.digest(self.key + b'comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon')
+
+  def verify(self, m, t):
+    return self.digest(m) == t
+
+  def authenticate_admin(self, m, t):
+    if self.digest(self.key + m) == t:
+      return b';admin=true' in m
+    else:
+      return False
+
+
 def main():
-  x1 = b''                                             # 31d6cfe0d16ae931b73c59d7e0c089c0
-  x2 = b'a'                                            # bde52cb31de33e46245e05fbdbd6fb24
-  x3 = b'abc'                                          # a448017aaf21d8525fc10ae87aa6729d
-  x4 = b'message digest'                               # d9130a8164549fe818874806e1c7014b
-  x5 = b'abcdefghijklmnopqrstuvwxyz'                   # d79e1c308aa5bbcdeea8ed63df412da9
-  x6 = b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'                    # 043f8582f241db351ce627e153e7f0e4
-  x7 = b'12345678901234567890123456789012345678901234567890123456789012345678901234567890'  # e33b4ddc9c38f2199c3e7b164fcc0536
-  x8 = b'The quick brown fox jumps over the lazy dog'  # 1bee69a46ba811185c194762abaeae90
-  x9 = b'The quick brown fox jumps over the lazy cog'  # b86e130ce7028da59e672d56ad0113df
+#  x1 = b''                                             # 31d6cfe0d16ae931b73c59d7e0c089c0
+#  x2 = b'a'                                            # bde52cb31de33e46245e05fbdbd6fb24
+#  x3 = b'abc'                                          # a448017aaf21d8525fc10ae87aa6729d
+#  x4 = b'message digest'                               # d9130a8164549fe818874806e1c7014b
+#  x5 = b'abcdefghijklmnopqrstuvwxyz'                   # d79e1c308aa5bbcdeea8ed63df412da9
+#  x6 = b'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'                    # 043f8582f241db351ce627e153e7f0e4
+#  x7 = b'12345678901234567890123456789012345678901234567890123456789012345678901234567890'  # e33b4ddc9c38f2199c3e7b164fcc0536
+#  x8 = b'The quick brown fox jumps over the lazy dog'  # 1bee69a46ba811185c194762abaeae90
+#  x9 = b'The quick brown fox jumps over the lazy cog'  # b86e130ce7028da59e672d56ad0113df
 
   md4 = MD4_30()
-#  ret = md4.digest(b'A' * 32 + b'B' * 64 + b'C' * 64 + b'D')
-  ret = md4.digest(x7)
-  print(ret.hex())
+#  print(md4.digest(x1).hex())
+#  print(md4.digest(x2).hex())
+#  print(md4.digest(x3).hex())
+#  print(md4.digest(x4).hex())
+#  print(md4.digest(x5).hex())
+#  print(md4.digest(x6).hex())
+#  print(md4.digest(x7).hex())
+
+  challenge = md4.challenge()
+
+  aux = MD4_30()
+
+  original_message = b'comment1=cooking%20MCs;userdata=foo;comment2=%20like%20a%20pound%20of%20bacon'
+  new_message = b';admin=true'
+
+  resume_tag = aux.digest(new_message + b'\x80' + (b'\x00' * 44) + (1112).to_bytes(8, 'little'), challenge)
+  for guess_keylen in range(1, 24):
+    glue_padding = b'\x80' + ((120 - (77 + guess_keylen + 1)) * b'\x00') + ((77 + guess_keylen)*8).to_bytes(8, 'little')
+    query = original_message + glue_padding + new_message
+    if md4.authenticate_admin(query, resume_tag):
+      print('authenticated at keylen ' + str(guess_keylen))
+      print('huzzah')
+      break
+    else:
+      print(str(guess_keylen) + '...kaboom')
 
 if __name__ == '__main__':
   main()
