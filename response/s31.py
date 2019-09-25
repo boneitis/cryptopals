@@ -8,19 +8,20 @@ import urllib.request
 
 def recover_next_byte(recovered_bytes):
   hexa = '0123456789abcdef'
-  best_time = 100 # sentinel
+  best_time = 0.001 # sentinel
   for letter in hexa:
-    print('polling')
     start = time.perf_counter()
     try:
-      r = urllib.request.urlopen('http://localhost:9000/test?file=foo&signature=' + recovered_bytes + letter)
+      r = urllib.request.urlopen('http://localhost:9000/test?file=foo&signature=' + recovered_bytes + letter + ('f' * (40 - len(recovered_bytes) - 1)))
       return letter
     except urllib.error.HTTPError as e:
       end = time.perf_counter()
-      if end - start < best_time:
+#      print('time elapsed on error:', e.code, end-start, 'vs best time', best_time)
+      if end - start > best_time:
+#        print('inner branch is hit on letter ' + letter)
         best_time = end - start
         candidate = letter
-  return letter
+  return candidate
 
 
 def main():

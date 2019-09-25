@@ -50,7 +50,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         pass
       else:
         return False
-      time.sleep(0.05)
+      time.sleep(0.005)
     return True
 
 class HMAC_31:
