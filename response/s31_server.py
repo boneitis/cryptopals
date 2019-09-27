@@ -1,5 +1,5 @@
 '''
-$ python3 s31.py
+$ python3 s31_server.py
 
 Much credit to GH user `akalin` and their solutions as supplemental material for web/sockets refresher.
 
@@ -38,6 +38,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
       if 'file' in q and 'signature' in q and q['file'][0] == 'foo' and len(q['signature'][0]) == 40:
         f = open('foo', 'rb')
         m = f.read(256)
+        f.close()
         hmac = HMAC_31(key = RUNTIMEKEY)
         checksum = hexlify(hmac.hmac_digest(hmac.key + m)).decode('utf-8')
         print('Target signature: ' + (' ' * 17) + checksum)
@@ -75,7 +76,7 @@ class HMAC_31:
 #    print('class31: inner hash digesting:', self.i_key_pad.hex(), 'cat', self.m)
 #    print('class31: outer hash digesting:', self.o_key_pad.hex(), 'cat', self.hash.digest(self.i_key_pad + self.m).hex())
 #   print('class31: passing to inner:', (self.i_key_pad + self.m))
-    return self.hash.digest(    self.o_key_pad + self.hash.digest(self.i_key_pad + self.m)    )
+    return self.hash.digest(    self.o_key_pad + self.hash.digest(self.i_key_pad + m)    )
 
 #  def authenticate_file_request(self, fname, signature):
 #    f = open('foo', 'rb')
