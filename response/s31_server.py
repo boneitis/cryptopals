@@ -15,6 +15,8 @@ import http.server
 from urllib import parse
 from s29 import SHA1_29
 
+RUNTIMEKEY = get_random_bytes(20)
+
 def generate_foo():
   rand_len = randint(1, 100)
   s = b''
@@ -36,8 +38,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
       if 'file' in q and 'signature' in q and q['file'][0] == 'foo' and len(q['signature'][0]) == 40:
         f = open('foo', 'rb')
         m = f.read(256)
-        hmac = HMAC_31()
+        hmac = HMAC_31(key = RUNTIMEKEY)
         checksum = hexlify(hmac.hmac_digest(hmac.key + m)).decode('utf-8')
+        print('Target signature: ' + (' ' * 17) + checksum)
         validated = self.insecure_compare(checksum, q['signature'][0])
     if validated == True:
       self.send_error(200)
@@ -102,7 +105,7 @@ def main():
 #    else:
 #      print('kaboom')
 
-#  generate_foo()
+  generate_foo()
 
   HOST, PORT = 'localhost', 9000
 
