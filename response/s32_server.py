@@ -1,6 +1,10 @@
 '''
 $ python3 s32_server.py
 
+Then, from another terminal:
+
+$ python3 s32.py
+
 Much credit to GH user `akalin` and their solutions as supplemental material for web/sockets refresher.
 
 '''
@@ -15,6 +19,7 @@ import http.server
 from urllib import parse
 from s29 import SHA1_29
 
+#RUNTIMEKEY = (0x0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b).to_bytes(20, 'big')
 RUNTIMEKEY = get_random_bytes(20)
 
 def generate_foo():
@@ -40,7 +45,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
         m = f.read(256)
         f.close()
         hmac = HMAC_31(key = RUNTIMEKEY)
-        checksum = hexlify(hmac.hmac_digest(hmac.key + m)).decode('utf-8')
+        checksum = hexlify(hmac.hmac_digest(m)).decode('utf-8')
         print('Target signature: ' + (' ' * 17) + checksum)
         validated = self.insecure_compare(checksum, q['signature'][0])
     if validated == True:
@@ -58,9 +63,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
     return True
 
 class HMAC_31:
-  def __init__(self, key = (0x0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b).to_bytes(20, 'big')):
+  def __init__(self, key):
     self.key = key
-    self.m = b'Hi There'
+#    self.m = b'Hi There'
     self.hash = SHA1_29()
     self.bs = 64
     self.output_size = 20
@@ -72,7 +77,7 @@ class HMAC_31:
     self.i_key_pad = strxor_c(self.key, 0x36)
 #    self.foo_digest = self.hash.digest(self.key + readFileFoo)
 
-  def hmac_digest(self, m = b'Hi There'):
+  def hmac_digest(self, m):
 #    print('class31: inner hash digesting:', self.i_key_pad.hex(), 'cat', self.m)
 #    print('class31: outer hash digesting:', self.o_key_pad.hex(), 'cat', self.hash.digest(self.i_key_pad + self.m).hex())
 #   print('class31: passing to inner:', (self.i_key_pad + self.m))

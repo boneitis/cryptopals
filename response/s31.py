@@ -1,6 +1,10 @@
 '''
 $ python3 s31.py
 
+Then, from another terminal:
+
+$ python3 s31.py
+
 '''
 
 import time

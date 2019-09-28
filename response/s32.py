@@ -1,4 +1,8 @@
 '''
+$ python3 s32_server.py
+
+Then, from another terminal:
+
 $ python3 s32.py
 
 Warning: Runtime about 30 minutes.
