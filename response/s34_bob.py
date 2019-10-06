@@ -43,30 +43,28 @@ class Bob_the_Handler(socketserver.StreamRequestHandler):
     print('Bob: Sending B = ' + str(B), end='\n\n')
     conn.sendnum(B)
 
-### Why is the code hanging here? ###
-
     iv = conn.readline()
     c = conn.readline()
     m = s34_aux.decrypt(k, iv, c)
-    print('Bob: Received iv, ct.\n' + m, end='\n\n\n')
+    print('Bob: Received iv, ct.\n' + m.decode(), end='\n\n')
 
     iv = get_random_bytes(16)
     c = s34_aux.encrypt(k, iv, m)
 
-    print('Bob: Sending iv, ct.')
+    print('Bob: Sending iv, ct.', end='\n\n')
     conn.sendline(iv)
     conn.sendline(c)
 
-    print('Bob: Done.\n\n\n\n')
+    print('Bob: Done.\n\n')
 
 def main():
   HOST, PORT = 'localhost', 9000
 
   socketserver.TCPServer.allow_reuse_address = True
-  ss = socketserver.TCPServer((HOST, PORT), Bob_the_Handler)
+  sexyBob = socketserver.TCPServer((HOST, PORT), Bob_the_Handler)
 
   try:
-    ss.serve_forever()
+    sexyBob.serve_forever()
   except KeyboardInterrupt:
     print('\nCaught KeyboardInterrupt. Closing server.')
   except:

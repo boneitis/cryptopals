@@ -37,9 +37,7 @@ conn.sendnum(A)
 B = int(conn.readnum())
 print('Alice: Received B = ' + str(B), end='\n\n')
 
-### Why is the code hanging here? ###
-
-s = (B ** a) % p
+s = pow(B, a, p)
 print('Alice: Derived shared s = ' + str(s), end='\n\n')
 
 k = s34_aux.derivekey(s)
@@ -50,10 +48,12 @@ m = b"Rollin' in my 5.0\nWith my rag-top down so my hair can blow\nThe girlies o
 
 print('Alice: Sending iv =', iv)
 conn.sendline(iv)
-print('Alice: Sending ct...')
-conn.sendline(encrypt(k, iv, m))
+print('Alice: Sending ct...', end='\n\n')
+conn.sendline(s34_aux.encrypt(k, iv, m))
 
 
-##
-##decrypt
+iv = conn.readline()
+c = conn.readline()
+m = s34_aux.decrypt(k, iv, c)
+print('Alice: Received iv, ct.\n' + m.decode(), end='\n\n\n')
 
