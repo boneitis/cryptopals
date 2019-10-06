@@ -5,7 +5,7 @@ Then, from another terminal:
 
 $ python3 s32.py
 
-Much credit to GH user `akalin` and their solutions as supplemental material for web/sockets refresher.
+Much credit to GH user `akalin and their solutions as supplemental material for web/sockets refresher.
 
 '''
 
