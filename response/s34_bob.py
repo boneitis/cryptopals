@@ -19,13 +19,13 @@ class Bob_the_Handler(socketserver.StreamRequestHandler):
     conn = s34_aux.Conn(self)
     print('Bob: Received connection.', end='\n\n')
 
-    p = int(conn.readnum())
+    p = conn.readnum()
     print('Bob: Received p: ' + str(p), end='\n\n')
 
-    g = int(conn.readnum())
+    g = conn.readnum()
     print('Bob: Received g: ' + str(g), end='\n\n')
 
-    A = int(conn.readnum())
+    A = conn.readnum()
     print('Bob: Received A: ' + str(A), end='\n\n')
 
     b = randint(2, p - 2)

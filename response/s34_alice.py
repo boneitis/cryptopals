@@ -20,7 +20,7 @@ a = randint(2, p - 2)
 A = pow(g, a, p)
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-sock.connect(('localhost', 9000))
+sock.connect(('localhost', 9001))
 
 conn = s34_aux.Conn(sock)
 
@@ -34,7 +34,7 @@ print('Alice: Sending A, ' + str(A) + '.', end='\n\n')
 conn.sendnum(A)
 
 
-B = int(conn.readnum())
+B = conn.readnum()
 print('Alice: Received B = ' + str(B), end='\n\n')
 
 s = pow(B, a, p)
