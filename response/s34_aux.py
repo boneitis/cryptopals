@@ -44,8 +44,8 @@ class Conn:
 def derivekey(s):
   s = hex(s)[2:].encode()
   if len(s) % 2 != 0:
-    s = unhexlify(b'0' + s)
-  return SHA1.new(s).digest()[:16]
+    s = b'0' + s
+  return SHA1.new(unhexlify(s)).digest()[:16]
 
 def encrypt(k, iv, m):
   cipher = AES.new(k, AES.MODE_CBC, iv)
