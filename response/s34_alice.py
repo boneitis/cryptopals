@@ -57,3 +57,4 @@ c = conn.readline()
 m = s34_aux.decrypt(k, iv, c)
 print('Alice: Received iv, ct.\n' + m.decode(), end='\n\n\n')
 
+sock.close()
