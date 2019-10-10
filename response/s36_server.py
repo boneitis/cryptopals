@@ -1,3 +1,11 @@
+'''
+$ python3 s36_server.py
+
+ ..
+
+$ python3 s36.py
+
+'''
 import socketserver
 import s34_aux
 from s36_aux import *
@@ -39,7 +47,9 @@ class Handle36(socketserver.StreamRequestHandler):
 #    print('K: ', K)
 
     h = HMAC_Wrapper36(K, salt)
+#    print('digest:', h.hexdigest())
     response = conn.readline().decode()
+#    print('received from client:', response)
     h.auth(response)
 
 def main():

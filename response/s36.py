@@ -1,3 +1,11 @@
+'''
+$ python3 s36_server.py
+
+ ..
+
+$ python3 s36.py
+
+'''
 import socket
 from Crypto.Hash import HMAC, SHA256
 from Crypto.Random.random import getrandbits, randint
