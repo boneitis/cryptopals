@@ -1,8 +1,7 @@
 '''
+
 $ python3 s38_mitm.py
-
  ..
-
 $ python3 s38.py
 
 '''

@@ -1,8 +1,7 @@
 '''
+
 $ python3 s36_server.py
-
  ..
-
 $ python3 s36.py
 
 '''
