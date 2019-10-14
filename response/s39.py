@@ -43,8 +43,8 @@ def invmod(a, m):
   g, s, t = eea(m, a)
 #  print('INVMOD: Passed m, a', m, a, 'returned g', g)
   if g != 1:
-    pass
-#    raise ValueError
+#    pass
+    raise ValueError
   return t % m
 
 '''
@@ -65,6 +65,7 @@ def invmod(a, m):
   return x % m
 
 '''
+
 def main():
 #  primes100_choose_2 = sample(list(eratosthenes2(100)), 2)
 #  p = primes100_choose_2[0]
@@ -83,7 +84,9 @@ def main():
       et = (p - 1) * (q - 1)
 #      e = randint(1, et - 1)
       e = 3
-      if et % 3 == 0:
+      g, s, t = eea(et, e)
+      print(g)
+      if g != 1:
         continue
 
 #  gcd, s, t = eea(973, 301)
