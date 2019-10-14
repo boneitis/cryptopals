@@ -85,7 +85,6 @@ def main():
 #      e = randint(1, et - 1)
       e = 3
       g, s, t = eea(et, e)
-      print(g)
       if g != 1:
         continue
 
