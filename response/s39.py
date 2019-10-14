@@ -42,7 +42,6 @@ def eea(r0, r1):
 def invmod(a, m):
   g, s, t = eea(m, a)
 #  print('INVMOD: Passed m, a', m, a, 'returned g', g)
-  print('g is', g)
   if g != 1:
     pass
 #    raise ValueError
@@ -84,6 +83,8 @@ def main():
       et = (p - 1) * (q - 1)
 #      e = randint(1, et - 1)
       e = 3
+      if et % 3 == 0:
+        continue
 
 #  gcd, s, t = eea(973, 301)
 #  print(gcd, s, t)             # 7 13 -42
@@ -96,7 +97,6 @@ def main():
 #  inv = invmod(17, 3120)
 #  print(inv)                   # 2753
 
-      print('try')
       d = invmod(e, et)
 
 #      m = 42
