@@ -1,12 +1,10 @@
 '''
 Toy module thrown together during set 5 / challenge 40 as a study aid for:
-Garner, Harry L. “The Residue Number System.” 1959 Proceedings of the Western Joint Computer Conference.
+  Garner, Harry L. “The Residue Number System.” 1959 Proceedings of the Western Joint Computer Conference.
 
 Meant to be used as an '... import *' within the interpreter.
 
 '''
-
-dict2357 = dict([(str(rns_enc(x)[0])+str(rns_enc(x)[1])+str(rns_enc(x)[2])+str(rns_enc(x)[3]), x) for x in range(210)])
 
 def rns_enc(i):
   assert(type(i) is int)
@@ -28,6 +26,8 @@ def r2357_sub(a, b):
   return rns_enc(rns_dec(a) - rns_dec(b) % 210)
 
 #def r2357_mul(a, b):
+
+dict2357 = dict([(str(rns_enc(x)[0])+str(rns_enc(x)[1])+str(rns_enc(x)[2])+str(rns_enc(x)[3]), x) for x in range(210)])
 
 # Rosetta Code
 def extended_gcd(aa, bb):
