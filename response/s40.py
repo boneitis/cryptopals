@@ -9,13 +9,14 @@ from Crypto.Util.number import getPrime
 from s40_aux import extended_gcd as eea, invmod, nthroot
 
 class RSA_Oracle_40:
-  def __init__(self, m):
+  def __init__(self, m = b"I'm killing your brain like a poisonous mushroom"):
     if type(m) is int:
       self.m = m
       self.m_len = None
     elif type(m) is bytes:
       self.m = int.from_bytes(m, 'big')
       self.m_len = len(m)
+    self.message = m
     self.npqs = []                        # 'Ns, Ps, and Qs'
     while len(self.npqs) < 3:
       print('try')
@@ -52,16 +53,16 @@ class RSA_Oracle_40:
     return challenge_arr
 
   def validate_response(self, m_outsider):
-    if m_outsider == self.m:
+    if m_outsider == self.message:
       print('huzzah')
     else:
       print('kaboom')
 
 def main():
-  Kelly = RSA_Oracle_40(42)
+  Kelly = RSA_Oracle_40()
 
   c = Kelly.challenge()
-  print(c)
+  print(c, end='\n\n')
 
   c_0 = c[0][0]
   c_1 = c[1][0]
@@ -80,8 +81,9 @@ def main():
            ( (c_2 * m_s_2 * invmod(m_s_2, n_2)) )) % (n_0 * n_1 * n_2)
 
   m_recovered = round(nthroot(3, result, 1000))
-  print('recovered', m_recovered)
-  Kelly.validate_response(m_recovered)
+  m_rec_dec = m_recovered.to_bytes(128, 'big')
+  print('recovered', m_rec_dec)
+  Kelly.validate_response(m_rec_dec[-48:])
 
 
 if __name__ == '__main__':
