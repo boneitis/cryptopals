@@ -59,7 +59,7 @@ if __name__ == '__main__':
   s = randint(2, n-1)
   cX = (pow(s, e, n) * c) % n
 
-  print('Sending challenge ciphertext back.')
+  print('Sending back challenge ciphertext.')
   garbo = Dia.query(c)
   print('Sending altered ciphertext.')
   pX = Dia.query(cX)
