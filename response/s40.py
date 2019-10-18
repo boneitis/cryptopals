@@ -1,11 +1,12 @@
 '''
 $ python3 s40.py
 
+ToDo: Resolve the math between Garner paper and problem description.
+
 '''
 
 from Crypto.Util.number import getPrime
-import numpy
-from s39a import extended_gcd as eea, invmod
+from s40_aux import extended_gcd as eea, invmod, nthroot
 
 class RSA_Oracle_40:
   def __init__(self, m):
@@ -74,12 +75,11 @@ def main():
   m_s_1 = c[0][1] * c[2][1]
   m_s_2 = c[0][1] * c[1][1]
 
-  result = (c_0 * m_s_0 * invmod(m_s_0, n_0)) + \
-           (c_1 * m_s_1 * invmod(m_s_1, n_1)) + \
-           (c_2 * m_s_2 * invmod(m_s_2, n_2))
+  result = (( (c_0 * m_s_0 * invmod(m_s_0, n_0)) ) + \
+           ( (c_1 * m_s_1 * invmod(m_s_1, n_1)) ) + \
+           ( (c_2 * m_s_2 * invmod(m_s_2, n_2)) )) % (n_0 * n_1 * n_2)
 
-  m_recovered = numpy.cbrt([result])
-  m_recovered = round(m_recovered)
+  m_recovered = round(nthroot(3, result, 1000))
   print('recovered', m_recovered)
   Kelly.validate_response(m_recovered)
 
