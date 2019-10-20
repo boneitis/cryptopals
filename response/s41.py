@@ -41,9 +41,9 @@ class Oracle_41:
   def query(self, c):
     h = SHA256.new(str(c).encode()).digest()
     if h == self.c_hash:
-      print('Dia: Still live..reject.\n')
+      print('Dia: Still live..Bottom.\n')
     else:
-      print('Dia: Take!\n')
+      print('Dia: Shut up and take my plaintext!\n')
       return pow(c, self.d, self.n)
 
   def check_response(self, m):
