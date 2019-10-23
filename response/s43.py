@@ -9,6 +9,8 @@ from Crypto.Hash import SHA1
 from Crypto.Random.random import randint
 from s40_aux import extended_gcd as eea, invmod
 
+challenge = '0954edd5e0afe5542a4adf012611a91912a3ec16'
+
 class K_PUB:
   def __init__(self, p, q, g, B):
     self.p, self.q, self.g, self.B = p, q, g, B
@@ -81,6 +83,11 @@ if __name__ == '__main__':
 
   x = b'For those that envy a MC it can be hazardous to your health\nSo be friendly, a matter of life and death, just like a etch-a-sketch\n'
 
-  d = ((s * k_e) - int.from_bytes(SHA1.new(x).digest(), 'big')) * invmod(r, q)
-  print('Private key: ' + str(d%q))
+  d = (((s * k_e) - int.from_bytes(SHA1.new(x).digest(), 'big')) * invmod(r, q)) % q
+  print('Private key: ' + str(d))
+
+  if SHA1.new(hex(d)[2:].encode()).hexdigest() == challenge:
+    print('huzzah')
+  else:
+    print('kaboom')
 
