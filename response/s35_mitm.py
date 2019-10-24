@@ -1,3 +1,14 @@
+'''                                                                                               
+$ s34_bob.py
+  ..
+$ s35_mitm.py
+  ..
+$ s35_alice.py
+
+Much credit again to GH user `akalin for an architectural template
+
+'''
+
 import s34_aux
 import socketserver
 import socket
