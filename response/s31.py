@@ -1,9 +1,11 @@
 '''
-$ python3 s31.py
+$ python3 s31_server.py
 
 Then, from another terminal:
 
 $ python3 s31.py
+
+Much credit to GH user `akalin and their solutions as supplemental material for web/sockets refresher.
 
 '''
 
