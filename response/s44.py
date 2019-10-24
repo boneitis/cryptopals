@@ -113,6 +113,7 @@ if __name__ == '__main__':
       k_ephemeral_candidate = (((m1 - m2) % q) * s_inv) % q
 
       d_candy = (((data[i].s * k_ephemeral_candidate) - int.from_bytes(unhexlify(data[i].m.encode()), 'big')) * invmod(data[i].r, q)) % q
+
       gal = Entity_44(d_candy)
       try:
         r_, s_ = gal.sign(data[i].msg, k_ephemeral_candidate)
@@ -128,4 +129,5 @@ if __name__ == '__main__':
       except ValueError:
 #        print('exception from i=' + str(i) + ' and j=' + str(j))
         pass
+  print('kaboom')
 
