@@ -8,7 +8,8 @@ class Oracle_46:
   def __init__(self):
 #    self.m = b'VGhhdCdzIHdoeSBJIGZvdW5kIHlvdSBkb24ndCBwbGF5IGFyb3VuZCB3aXRoIHRoZSBGdW5reSBDb2xkIE1lZGluYQ=='
     self.m = b'aGVsbG8K'
-    self.x = int.from_bytes(d64(b'aGVsbG8K'), 'big')
+#    self.x = int.from_bytes(d64(b'aGVsbG8K'), 'big')
+    self.x = 105
     while True:
       try:
         print('try')
@@ -51,7 +52,12 @@ def x_to_m(x):
   return x.to_bytes(ceil(log(x, 2) / 8), 'big')
 
 if __name__ == '__main__':
-  lani = Oracle_46()
+  l = Oracle_46()
   c = lani.challenge()
   print(c)
+
+  lower = 0
+  upper = lani.n - 1
+  for i in range(1024):
+    if l.query(8 * c):
 
