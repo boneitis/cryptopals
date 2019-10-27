@@ -1,15 +1,25 @@
+'''
+
+$ python3 s46.py
+
+ToDo: Ugh. Tighten up the precision.
+
+
+'''
+
 from Crypto.Hash import SHA1
 from Crypto.Util.number import getPrime
-from math import log, ceil
+from math import log, ceil, floor
 from base64 import b64encode as e64, b64decode as d64
 from s40_aux import extended_gcd as eea, invmod
 
 class Oracle_46:
   def __init__(self):
-#    self.m = b'VGhhdCdzIHdoeSBJIGZvdW5kIHlvdSBkb24ndCBwbGF5IGFyb3VuZCB3aXRoIHRoZSBGdW5reSBDb2xkIE1lZGluYQ=='
-    self.m = b'aGVsbG8K'
+    self.m = b'VGhhdCdzIHdoeSBJIGZvdW5kIHlvdSBkb24ndCBwbGF5IGFyb3VuZCB3aXRoIHRoZSBGdW5reSBDb2xkIE1lZGluYQ=='
+#    self.m = e64(b'hello\n')
+    self.x = int.from_bytes(d64(self.m), 'big')
 #    self.x = int.from_bytes(d64(b'aGVsbG8K'), 'big')
-    self.x = 105
+#    self.x = 105
     while True:
       try:
         print('try')
@@ -52,12 +62,21 @@ def x_to_m(x):
   return x.to_bytes(ceil(log(x, 2) / 8), 'big')
 
 if __name__ == '__main__':
-  l = Oracle_46()
-  c = lani.challenge()
+  tilly = Oracle_46()
+  c = tilly.challenge()
   print(c)
 
   lower = 0
-  upper = lani.n - 1
+  upper = tilly.n - 1
   for i in range(1024):
-    if l.query(8 * c):
+    print(x_to_m(upper))
+    c *= 8
+    if tilly.query(c):
+      lower += (upper - lower) // 2
+    else:
+      upper -= (upper - lower) // 2
+  print('\n')
+
+  print(x_to_m(upper))
+  print(x_to_m(lower))
 
