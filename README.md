@@ -5,7 +5,7 @@ Here lives my umpteenth attempt to sit still long enough to crank out a few solu
 Behold __Cryptopals__, [a series of coding challenges in modern cryptography](https://blog.pinboard.in/2013/04/the_matasano_crypto_challenges/). Why spend time cleaning up code when there are horns to toot?
 
 - [ Objectives ](#objectives)
-- [ Things I Have Learned so Far During the Undertaking ](#learned)
+- [ What I Have Learned During the Undertaking ](#learned)
 - [ Dues and Doodies ](#doodie)
 - [ Remarks and Commentary for Selected Exercises ](#remarks)
 
@@ -33,17 +33,7 @@ The experience so far, to my best explanation, is of reliving my kindergarten da
 It is a thoroughly liberating exercise of freedom.
 
 <a name="learned"></a>
-## Things I Have Learned so Far during the Undertaking
-
-#### The simplicity of the augmentative constructions built on top of the base encryption schemes
-
-#### The significance of the oracle construct in cryptography
-
-No claims are made regarding the attack oracle's relationship to the random oracle or generalized oracle machine in algorithmic analysis, and pay no mind to my having withdrawn from that advanced algorithms session a few years back. Do hush for a moment as I sweep them under the rug.
-
-The oracle as it concerns me provides a service, computational or otherwise, that can be leveraged to mount attacks on the target system. It can be queried as much as desired, if its definition and your available resources allow for it. When granted its requested parameters, the ever gracious oracle yields a peculiarly specific piece of information.
-
-It serves to model a realistic trait or exhibited behavior of a live, practical system that performs services probably more useful than those provided by a machine that only communicates, once, through the ultimately secure one-time pad under a single key.
+## What I Have Learned during the Undertaking
 
 #### That I Must Not Stop doing what I want to do
 
