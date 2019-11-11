@@ -9,7 +9,7 @@ Behold __Cryptopals__, [a series of coding challenges in modern cryptography](ht
 - [ Dues and Doodies ](#doodie)
 - [ Remarks and Commentary for Selected Exercises ](#remarks)
 
-_This writeup is a WIP. The present headlines are expected to be exhaustively final._
+_This W is IP! If we're lucky, it might stay that way!_
 
 <a name="objectives"></a>
 ## Objectives
