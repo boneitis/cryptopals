@@ -11,6 +11,7 @@ from Crypto.Random.random import getrandbits
 from Crypto.Random.random import randint
 from math import log, ceil, floor
 from base64 import b64encode as e64, b64decode as d64
+from decimal import *
 from s40_aux import extended_gcd as eea, invmod
 
 class KEY_PUB:
@@ -93,6 +94,7 @@ def x_to_m(x):
   return x.to_bytes(32, 'big')
 
 def main():
+  getcontext().prec = 4096
   moggle = Oracle_47()
   e, n = moggle.keypub()
   c = moggle.challenge()
@@ -118,8 +120,8 @@ def main():
       break
     s_i_try += 1
 
-  ra = ceil(((2 * B * s_i_try) - (3 * B) + 1) / n)
-  rb = floor((((3 * B - 1) * s_i_try) - (2 * B)) / n)
+  ra = ceil(Decimal(Decimal(2 * B * s_i_try) - Decimal(3 * B) + Decimal(1)) / Decimal(n))
+  rb = floor(Decimal((Decimal(3 * B - 1) * s_i_try) - Decimal(2 * B)) / Decimal(n))
   print('r in [', ra, ',', rb, ']')
 
   if ra != rb:
@@ -127,15 +129,15 @@ def main():
     exit(1)
 
   m0a = ceil(((2 * B) + (ra * n)) / s_i_try) % n
-  m0b = floor((((3 * B) - 1) + (ra * n)) / s_i_try) % n
+  m0b = floor((Decimal((3 * B) - 1) + Decimal(ra * n)) / Decimal(s_i_try)) % Decimal(n)
   print('m0 in... \n[\n  ' + str(m0a) + ', \n  ' + str(m0b) + '\n], modulo...\n  ' + str(n))
   print('vs\n  ' + str(2 * B) + ',\n  ' + str((3 * B) - 1), end='\n\n')
   if m0a > m0b:
     print('m0a m0b panic')
     exit(1)
 
-  aa = ceil(((2 * B) + (ra * n)) / s_i_try) % n
-  bb = floor((((3 * B) - 1) + (ra * n)) / s_i_try) % n
+  aa = ceil(Decimal(Decimal(2 * B) + Decimal(ra * n)) / Decimal(s_i_try)) % Decimal(n)
+  bb = floor((Decimal((3 * B) - 1) + Decimal(ra * n)) / Decimal(s_i_try)) % Decimal(n)
 
   M = [max(M[0], aa), min(M[1], bb)]
   print('new M:\n[\n  ' + str(M[0]) + ',\n  ' + str(M[1]) + '\n]\n')
@@ -143,17 +145,17 @@ def main():
 
 # START POWER LOOP
 #  r_i = 0
-  r_i = ceil(2 * (((M[1] * s_i_minus_1) - (2 * B)) / n)) - 1  # hi
+  r_i = ceil(2 * Decimal((Decimal(M[1] * s_i_minus_1) - Decimal(2 * B)) / Decimal(n))) - 1  # hi
   SUCCESSFUL = False
   while True:
     if not SUCCESSFUL:
       r_i += 1
     else:
-      r_i = ceil(2 * (((M[1] * s_i_minus_1) - (2 * B)) / n))
+      r_i = ceil(2 * Decimal((Decimal(M[1] * s_i_minus_1) - Decimal(2 * B)) / Decimal(n)))
     print('trying r =', r_i, end='')
 
-    s_i_a = ceil(((2 * B) + (r_i * n)) / M[1])
-    s_i_b = floor(((3 * B) + (r_i * n)) / M[0])
+    s_i_a = ceil((Decimal(2 * B) + Decimal(r_i * n)) / Decimal(M[1]))
+    s_i_b = floor((Decimal(3 * B) + Decimal(r_i * n)) / Decimal(M[0]))
 
     SUCCESSFUL = False
     for s_i_try in range(s_i_a, s_i_b + 1):
@@ -168,15 +170,15 @@ def main():
       print('  s_i_try reached upper bound', s_i_b, ', increment r_i and try again')
       continue
 
-    aa = ceil(((2 * B) + (r_i * n)) / s_i) % n
-    bb = floor((((3 * B) - 1) + (r_i * n)) / s_i) % n
+    aa = ceil((Decimal(2 * B) + Decimal(r_i * n)) / Decimal(s_i)) % Decimal(n)
+    bb = floor((Decimal((3 * B) - 1) + Decimal(r_i * n)) / Decimal(s_i)) % Decimal(n)
 
     s_i_minus_1 = s_i
     M = [max(M[0], aa), min(M[1], bb)]
     print('new M:\n[\n  ' + str(M[0]) + ',\n  ' + str(M[1]) + '\n]\n')
     if M[0] == M[1]:
       print('found m0:', M[0])
-      print('decoded:', (M[0]).to_bytes(32, 'big'))
+      print('decoded:', int(M[0]).to_bytes(32, 'big'))
       break
     elif M[0] > M[1]:
       print('bounds crossed. panic')
