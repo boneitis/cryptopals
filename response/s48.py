@@ -1,17 +1,8 @@
 '''
-To any wanderers...
+$ python3 s48.py
 
-Let it be known that I had a solution running in two days but for over two weeks had the same, identical bug creeping up, no matter how many times I threw away my source code and started from scratch.
-
-IF YOU WOULD LIKE A SPOILER...
-SPOILERSPOILERSPOILERSPOILERSPOILERSPOILERSPOILERSPOILER
-SPOILERIWASNOTGIVINGMYDATAENOUGHPRECISIONTOWORKWITHOILER
-SPOILERSPOILERSPOILERSPOILERSPOILERSPOILERSPOILERSPOILER
-
-That is all.
 
 '''
-
 
 from Crypto.Util.number import getPrime
 from Crypto.Random.random import getrandbits
