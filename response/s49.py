@@ -51,12 +51,12 @@ class O49:
       toplevellist = re.split(b'&', unpad(messagemac[:-16], 16))
       if toplevellist[0][:5] != b'from=' or toplevellist[1][:8] != b'tx_list=':
         exit(1)
-      print('Leela: Processing payments on behalf of account: ' + toplevellist[0][5:].decode())
+      print('Leela: Processing payments on behalf of account ' + toplevellist[0][5:].decode())
       for payment in re.split(b';', toplevellist[1][8:]):
         pair = re.split(b':', payment)
         recipient = int(pair[0])
         amount = int(pair[1])
-        print('  ' + str(amount) + ' spacebucks for account: ' + str(recipient) + '!!!')
+        print('  ' + str(amount) + ' spacebucks for account ' + str(recipient) + '!!!')
 
     else:
       print('kaboom')
