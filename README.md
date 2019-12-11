@@ -52,7 +52,7 @@ To _Sir geohot_, I look upon, in his light of infamy, as a [relatable](https://w
 
 To _dc916_, I am grateful for, aside from a platform serving as an outlet, the camaraderie provided me today and tomorrow. If history has taught me anything, it is that it is unlikely unwise to not count on anything to last. You will otherwise be better self-served by distracting yourself with a few meaningful, shared experiences along the way while you move forward in yearning.
 
-To [the _PHCG_](https://www.youtube.com/watch?v=eo7iwlMFPrM), were it not for whom... I can't even fathom.
+To [the _Space Cowboy_](https://www.youtube.com/watch?v=eo7iwlMFPrM), were it not for whom... I can't even fathom.
 
 And to my _dearest_ reader, I beg your recognition that, while we're a colorful bunch, I'm just a guy.
 
