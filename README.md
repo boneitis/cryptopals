@@ -92,4 +92,4 @@ In a cipher block chaining (CBC) construction, even the painstaking effort to re
 
 #### 17. The CBC padding oracle
 
-#### 21-24 The Mersenne Twister PRNG
+#### 21-24. The Mersenne Twister PRNG
