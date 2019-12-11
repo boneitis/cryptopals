@@ -90,8 +90,6 @@ Attacks can also be [cheeky and cute](https://www.coursera.org/lecture/crypto/at
 
 In a cipher block chaining (CBC) construction, even the painstaking effort to reject outright a metacharacter when parsing user-supplied strings can be sidestepped by feeding a dormantly malicious placeholder-letter by which, later on, its corresponding byte in the previous block of the ciphertext (at this point under the attacker's control) during decryption will be XOR-ed to sneak in that restricted character.
 
-It bewilders me to imagine the extent of session hijacks, unintended shopping cart discounts, and disproportionate withdrawals carried out in the wild by this silly attack.
-
 #### 17. The CBC padding oracle
 
 #### 21-24 The Mersenne Twister PRNG
