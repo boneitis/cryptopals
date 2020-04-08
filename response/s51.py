@@ -97,6 +97,8 @@ def main():
     base += brutebyte(dorothea, alpha, base)
     print(base)
 
+  dorothea.challenge(base[10:])
+
 if __name__ == '__main__':
   main()
 
