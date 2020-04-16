@@ -301,6 +301,82 @@ def coll32768(vector):
                                 b14 = vector[14]
                                 yield b0[i] + b1[j] + b2[k] + b3[l] + b4[m] + b5[n] + b6[o] + b7[p] + b8[q] + b9[r] + b10[s] + b11[t] + b12[u] + b13[v] + b14[w]
 
+def coll65536(vector):
+  print('  65536col')
+  for i in range(2):
+    b0 = vector[0]
+    for j in range(2):
+      b1 = vector[1]
+      for k in range(2):
+        b2 = vector[2]
+        for l in range(2):
+          b3 = vector[3]
+          for m in range(2):
+            b4 = vector[4]
+            for n in range(2):
+              b5 = vector[5]
+              for o in range(2):
+                b6 = vector[6]
+                for p in range(2):
+                  b7 = vector[7]
+                  for q in range(2):
+                    b8 = vector[8]
+                    for r in range(2):
+                      b9 = vector[9]
+                      for s in range(2):
+                        b10 = vector[10]
+                        for t in range(2):
+                          b11 = vector[11]
+                          for u in range(2):
+                            b12 = vector[12]
+                            for v in range(2):
+                              b13 = vector[13]
+                              for w in range(2):
+                                b14 = vector[14]
+                                for x in range(2):
+                                  b15 = vector[15]
+                                  yield b0[i] + b1[j] + b2[k] + b3[l] + b4[m] + b5[n] + b6[o] + b7[p] + b8[q] + b9[r] + b10[s] + b11[t] + b12[u] + b13[v] + b14[w] + b15[x]
+
+
+def coll131072(vector):
+  print('  131072col')
+  for i in range(2):
+    b0 = vector[0]
+    for j in range(2):
+      b1 = vector[1]
+      for k in range(2):
+        b2 = vector[2]
+        for l in range(2):
+          b3 = vector[3]
+          for m in range(2):
+            b4 = vector[4]
+            for n in range(2):
+              b5 = vector[5]
+              for o in range(2):
+                b6 = vector[6]
+                for p in range(2):
+                  b7 = vector[7]
+                  for q in range(2):
+                    b8 = vector[8]
+                    for r in range(2):
+                      b9 = vector[9]
+                      for s in range(2):
+                        b10 = vector[10]
+                        for t in range(2):
+                          b11 = vector[11]
+                          for u in range(2):
+                            b12 = vector[12]
+                            for v in range(2):
+                              b13 = vector[13]
+                              for w in range(2):
+                                b14 = vector[14]
+                                for x in range(2):
+                                  b15 = vector[15]
+                                  for y in range(2):
+                                    b16 = vector[16]
+                                    yield b0[i] + b1[j] + b2[k] + b3[l] + b4[m] + b5[n] + b6[o] + b7[p] + b8[q] + b9[r] + b10[s] + b11[t] + b12[u] + b13[v] + b14[w] + b15[x] + b16[y]
+
+
 '''
 #def trampoline(collisions):
 #  L = len(collisions)
