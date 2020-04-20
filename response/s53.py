@@ -1,6 +1,5 @@
 '''
-$ python3 s52.py
-
+$ python3 s53.py
 
 '''
 
