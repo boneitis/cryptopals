@@ -67,7 +67,7 @@ def main():
   challengeM = rand(randint(420, 780))
   challengeH = f(pad53(challengeM))
   print('message:\n', challengeM, end='\n\n')
-  print('len:', len(challengeM), '\npadded:', len(pad53(challengeM)), end='\n\n')
+  print('len:', len(challengeM), '\npadded:', len(pad53(challengeM)), '\nblocks', len(pad53(challengeM))/16, end='\n\n')
   print('hash:\n', challengeH, end='\n\n')
 
   k = ceil(log(len(pad53(challengeM)) // 16, 2))
@@ -85,20 +85,43 @@ def main():
     print(collision)
 
   H_i_map = {}
-  H_i_map[H_0_def[:2]] = 0
+#  H_i_map[H_0_def[:2]] = 0
   genblocks = blockgenerator(pad53(challengeM))
   count = 1
   H_i = H_0_def[:2]
   for block in genblocks:
     H_i = f(block, H_i)
-    H_i_map[H_i] = count
+    if count > k + 1:
+      H_i_map[H_i] = count
     count += 1
   print('\nintermediates map', H_i_map)
 
   preimage = preimageinterm(pool[-1][1][2], H_i_map)
+  resume = H_i_map[f(preimage, pool[-1][1][2])]
   print('\nfound preimage', preimage)
   print('from final expandable state', pool[-1][1][2])
-  print('upon entry into block', H_i_map[f(preimage, pool[-1][1][2])], '(', f(preimage, pool[-1][1][2]), ')')
+  print('upon entry into block', resume, '(', f(preimage, pool[-1][1][2]), ')')
+
+  representation = resume - 1 - len(pool)
+  response = b''
+  level = 0
+  for i in bin(representation)[2:].zfill(len(pool)):
+    if int(i) == 1:
+      response += dummy * (2 ** pool[level][0]) + pool[level][1][1]
+    else:
+      response += pool[level][1][0]
+    level += 1
+
+  print('\n\nraw response', response, '\nwith hash', f(response))
+  response += preimage + challengeM[(resume * 16):]
+
+  print('\n\nfinal crash', response)
+  print('\nresponse hash', f(pad53(response)), end='\n\n')
+
+  if (f(pad53(response)) == f(pad53(challengeM))) and (response != challengeM):
+    print('huzzah')
+  else:
+    print('kaboom')
 
 if __name__ == '__main__':
   main()
