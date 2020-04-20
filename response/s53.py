@@ -3,7 +3,6 @@ $ python3 s53.py
 
 '''
 
-from s52_aux import *
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 from Crypto.Random import get_random_bytes as rand
