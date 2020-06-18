@@ -93,3 +93,9 @@ In a cipher block chaining (CBC) construction, even the painstaking effort to re
 #### 17. The CBC padding oracle
 
 #### 21-24. The Mersenne Twister PRNG
+
+### Hash Functions Triple Play
+
+#### 52. Massively colliding Merkle-Damgard hashes in sublinear time
+#### 53. Crashing into a hash chain anywhere along the way
+#### 54. Dictating Destiny with the hash diamond
