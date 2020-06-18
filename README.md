@@ -96,6 +96,8 @@ In a cipher block chaining (CBC) construction, even the painstaking effort to re
 
 ### Hash Functions Triple Play
 
-#### 52. Massively colliding Merkle-Damgard hashes in sublinear time
-#### 53. Crashing into a hash chain anywhere along the way
+#### 52. Breaking the bigger hash with, quote-unquote, random samples
+
+#### 53. Crashing into the hash chain somewhere along the path
+
 #### 54. Dictating Destiny with the hash diamond
