@@ -98,6 +98,14 @@ In a cipher block chaining (CBC) construction, even the painstaking effort to re
 
 #### 52. Breaking the bigger hash with, quote-unquote, random samples
 
+This exercise has you homebake your own de-fanged Merkle-Damgard hashes, so that you can run solution code within a reasonable timeframe (as well as giving you a closer view of the machinery).
+
+What I took away from the challenge was that I would feel better using a single, longer hash than two shorter, concatenated hashes, because you are bottlenecking your construction to your stronger hash (if they differ in strength).
+
+An auditor or attacker with white box access can attack your smaller hash (if your two hash functions differ in bit-size) to generate a 2^(n/2)-way collision (that is, if it's feasible to collide the hash at all, there is a clever trick to generate a massive number of messages that all collide to the same output), then birthday attack the bigger hash using the messages from that collision-pool. (Importantly, this mention of "n" specifically refers to the bit-size of the larger hash, a.k.a., the bottleneck.)
+
+Although there might be something about it at first glance that makes the messages feel not random enough (in order for the birthday principle to hold), it's far easier to instruct you, dear reader, to just do the exercise in order to grok why it works than for me to figure out how to explain it :)
+
 #### 53. Crashing into the hash chain somewhere along the path
 
 #### 54. Dictating Destiny with the hash diamond
